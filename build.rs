@@ -8,7 +8,7 @@ fn main() {
         // expect them to keep their namespace free of conflicts with
         // their other projects.
         .out_dir("src/cilium")
-        // Needed for some protobuf-compiler versions?
+        // Needed for newer tetragon API (between 5ac805fab..24fcb1546).
         .protoc_arg("--experimental_allow_proto3_optional")
         .compile_protos(
             &[

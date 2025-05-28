@@ -374,6 +374,326 @@ impl ProcessPrivilegesChanged {
         }
     }
 }
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum BpfCmd {
+    /// Create a map and return a file descriptor that refers to the
+    /// map.
+    BpfMapCreate = 0,
+    /// Look up an element with a given key in the map referred to
+    /// by the file descriptor map_fd.
+    BpfMapLookupElem = 1,
+    /// Create or update an element (key/value pair) in a specified map.
+    BpfMapUpdateElem = 2,
+    /// Look up and delete an element by key in a specified map.
+    BpfMapDeleteElem = 3,
+    /// Look up an element by key in a specified map and return the key
+    /// of the next element. Can be used to iterate over all elements
+    /// in the map.
+    BpfMapGetNextKey = 4,
+    /// Verify and load an eBPF program, returning a new file descriptor
+    /// associated with the program.
+    BpfProgLoad = 5,
+    /// Pin an eBPF program or map referred by the specified bpf_fd
+    /// to the provided pathname on the filesystem.
+    BpfObjPin = 6,
+    /// Open a file descriptor for the eBPF object pinned to the
+    /// specified pathname.
+    BpfObjGet = 7,
+    /// Attach an eBPF program to a target_fd at the specified
+    /// attach_type hook.
+    BpfProgAttach = 8,
+    /// Detach the eBPF program associated with the target_fd at the
+    /// hook specified by attach_type.
+    BpfProgDetach = 9,
+    /// Run the eBPF program associated with the prog_fd a repeat
+    /// number of times against a provided program context ctx_in and
+    /// data data_in, and return the modified program context
+    /// ctx_out, data_out (for example, packet data), result of the
+    /// execution retval, and duration of the test run.
+    BpfProgTestRun = 10,
+    /// Fetch the next eBPF program currently loaded into the kernel.
+    BpfProgGetNextId = 11,
+    /// Fetch the next eBPF map currently loaded into the kernel.
+    BpfMapGetNextId = 12,
+    /// Open a file descriptor for the eBPF program corresponding to prog_id.
+    BpfProgGetFdById = 13,
+    /// Open a file descriptor for the eBPF map corresponding to map_id.
+    BpfMapGetFdById = 14,
+    /// Obtain information about the eBPF object corresponding to bpf_fd.
+    BpfObjGetInfoByFd = 15,
+    /// Obtain information about eBPF programs associated with the specified
+    /// attach_type hook.
+    BpfProgQuery = 16,
+    /// Attach an eBPF program to a tracepoint *name* to access kernel
+    /// internal arguments of the tracepoint in their raw form.
+    BpfRawTracepointOpen = 17,
+    /// Verify and load BPF Type Format (BTF) metadata into the kernel,
+    /// returning a new file descriptor associated with the metadata.
+    BpfBtfLoad = 18,
+    /// Open a file descriptor for the BPF Type Format (BTF)
+    /// corresponding to btf_id.
+    BpfBtfGetFdById = 19,
+    /// Obtain information about eBPF programs associated with the target
+    /// process identified by pid and fd.
+    BpfTaskFdQuery = 20,
+    /// Look up an element with the given key in the map referred to
+    /// by the file descriptor fd, and if found, delete the element.
+    BpfMapLookupAndDeleteElem = 21,
+    /// Freeze the permissions of the specified map.
+    BpfMapFreeze = 22,
+    /// Fetch the next BPF Type Format (BTF) object currently loaded into
+    /// the kernel.
+    BpfBtfGetNextId = 23,
+    /// Iterate and fetch multiple elements in a map.
+    BpfMapLookupBatch = 24,
+    /// Iterate and delete all elements in a map.
+    BpfMapLookupAndDeleteBatch = 25,
+    /// Update multiple elements in a map by key.
+    BpfMapUpdateBatch = 26,
+    /// Delete multiple elements in a map by key.
+    BpfMapDeleteBatch = 27,
+    /// Attach an eBPF program to a target_fd at the specified
+    /// attach_type hook and return a file descriptor handle for
+    /// managing the link.
+    BpfLinkCreate = 28,
+    /// Update the eBPF program in the specified link_fd to
+    /// new_prog_fd.
+    BpfLinkUpdate = 29,
+    /// Open a file descriptor for the eBPF Link corresponding to
+    /// link_id.
+    BpfLinkGetFdById = 30,
+    /// Fetch the next eBPF link currently loaded into the kernel.
+    BpfLinkGetNextId = 31,
+    /// Enable eBPF runtime statistics gathering.
+    BpfEnableStats = 32,
+    /// Create an iterator on top of the specified link_fd (as
+    /// previously created using BPF_LINK_CREATE) and return a
+    /// file descriptor that can be used to trigger the iteration.
+    BpfIterCreate = 33,
+    /// Forcefully detach the specified link_fd from its corresponding
+    /// attachment point.
+    BpfLinkDetach = 34,
+    /// Bind a map to the lifetime of an eBPF program.
+    BpfProgBindMap = 35,
+    /// Create BPF token with embedded information about what can be
+    /// passed as an extra parameter to various bpf() syscall commands
+    /// to grant BPF subsystem functionality to unprivileged processes.
+    BpfTokenCreate = 36,
+}
+impl BpfCmd {
+    /// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            Self::BpfMapCreate => "BPF_MAP_CREATE",
+            Self::BpfMapLookupElem => "BPF_MAP_LOOKUP_ELEM",
+            Self::BpfMapUpdateElem => "BPF_MAP_UPDATE_ELEM",
+            Self::BpfMapDeleteElem => "BPF_MAP_DELETE_ELEM",
+            Self::BpfMapGetNextKey => "BPF_MAP_GET_NEXT_KEY",
+            Self::BpfProgLoad => "BPF_PROG_LOAD",
+            Self::BpfObjPin => "BPF_OBJ_PIN",
+            Self::BpfObjGet => "BPF_OBJ_GET",
+            Self::BpfProgAttach => "BPF_PROG_ATTACH",
+            Self::BpfProgDetach => "BPF_PROG_DETACH",
+            Self::BpfProgTestRun => "BPF_PROG_TEST_RUN",
+            Self::BpfProgGetNextId => "BPF_PROG_GET_NEXT_ID",
+            Self::BpfMapGetNextId => "BPF_MAP_GET_NEXT_ID",
+            Self::BpfProgGetFdById => "BPF_PROG_GET_FD_BY_ID",
+            Self::BpfMapGetFdById => "BPF_MAP_GET_FD_BY_ID",
+            Self::BpfObjGetInfoByFd => "BPF_OBJ_GET_INFO_BY_FD",
+            Self::BpfProgQuery => "BPF_PROG_QUERY",
+            Self::BpfRawTracepointOpen => "BPF_RAW_TRACEPOINT_OPEN",
+            Self::BpfBtfLoad => "BPF_BTF_LOAD",
+            Self::BpfBtfGetFdById => "BPF_BTF_GET_FD_BY_ID",
+            Self::BpfTaskFdQuery => "BPF_TASK_FD_QUERY",
+            Self::BpfMapLookupAndDeleteElem => "BPF_MAP_LOOKUP_AND_DELETE_ELEM",
+            Self::BpfMapFreeze => "BPF_MAP_FREEZE",
+            Self::BpfBtfGetNextId => "BPF_BTF_GET_NEXT_ID",
+            Self::BpfMapLookupBatch => "BPF_MAP_LOOKUP_BATCH",
+            Self::BpfMapLookupAndDeleteBatch => "BPF_MAP_LOOKUP_AND_DELETE_BATCH",
+            Self::BpfMapUpdateBatch => "BPF_MAP_UPDATE_BATCH",
+            Self::BpfMapDeleteBatch => "BPF_MAP_DELETE_BATCH",
+            Self::BpfLinkCreate => "BPF_LINK_CREATE",
+            Self::BpfLinkUpdate => "BPF_LINK_UPDATE",
+            Self::BpfLinkGetFdById => "BPF_LINK_GET_FD_BY_ID",
+            Self::BpfLinkGetNextId => "BPF_LINK_GET_NEXT_ID",
+            Self::BpfEnableStats => "BPF_ENABLE_STATS",
+            Self::BpfIterCreate => "BPF_ITER_CREATE",
+            Self::BpfLinkDetach => "BPF_LINK_DETACH",
+            Self::BpfProgBindMap => "BPF_PROG_BIND_MAP",
+            Self::BpfTokenCreate => "BPF_TOKEN_CREATE",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "BPF_MAP_CREATE" => Some(Self::BpfMapCreate),
+            "BPF_MAP_LOOKUP_ELEM" => Some(Self::BpfMapLookupElem),
+            "BPF_MAP_UPDATE_ELEM" => Some(Self::BpfMapUpdateElem),
+            "BPF_MAP_DELETE_ELEM" => Some(Self::BpfMapDeleteElem),
+            "BPF_MAP_GET_NEXT_KEY" => Some(Self::BpfMapGetNextKey),
+            "BPF_PROG_LOAD" => Some(Self::BpfProgLoad),
+            "BPF_OBJ_PIN" => Some(Self::BpfObjPin),
+            "BPF_OBJ_GET" => Some(Self::BpfObjGet),
+            "BPF_PROG_ATTACH" => Some(Self::BpfProgAttach),
+            "BPF_PROG_DETACH" => Some(Self::BpfProgDetach),
+            "BPF_PROG_TEST_RUN" => Some(Self::BpfProgTestRun),
+            "BPF_PROG_GET_NEXT_ID" => Some(Self::BpfProgGetNextId),
+            "BPF_MAP_GET_NEXT_ID" => Some(Self::BpfMapGetNextId),
+            "BPF_PROG_GET_FD_BY_ID" => Some(Self::BpfProgGetFdById),
+            "BPF_MAP_GET_FD_BY_ID" => Some(Self::BpfMapGetFdById),
+            "BPF_OBJ_GET_INFO_BY_FD" => Some(Self::BpfObjGetInfoByFd),
+            "BPF_PROG_QUERY" => Some(Self::BpfProgQuery),
+            "BPF_RAW_TRACEPOINT_OPEN" => Some(Self::BpfRawTracepointOpen),
+            "BPF_BTF_LOAD" => Some(Self::BpfBtfLoad),
+            "BPF_BTF_GET_FD_BY_ID" => Some(Self::BpfBtfGetFdById),
+            "BPF_TASK_FD_QUERY" => Some(Self::BpfTaskFdQuery),
+            "BPF_MAP_LOOKUP_AND_DELETE_ELEM" => Some(Self::BpfMapLookupAndDeleteElem),
+            "BPF_MAP_FREEZE" => Some(Self::BpfMapFreeze),
+            "BPF_BTF_GET_NEXT_ID" => Some(Self::BpfBtfGetNextId),
+            "BPF_MAP_LOOKUP_BATCH" => Some(Self::BpfMapLookupBatch),
+            "BPF_MAP_LOOKUP_AND_DELETE_BATCH" => Some(Self::BpfMapLookupAndDeleteBatch),
+            "BPF_MAP_UPDATE_BATCH" => Some(Self::BpfMapUpdateBatch),
+            "BPF_MAP_DELETE_BATCH" => Some(Self::BpfMapDeleteBatch),
+            "BPF_LINK_CREATE" => Some(Self::BpfLinkCreate),
+            "BPF_LINK_UPDATE" => Some(Self::BpfLinkUpdate),
+            "BPF_LINK_GET_FD_BY_ID" => Some(Self::BpfLinkGetFdById),
+            "BPF_LINK_GET_NEXT_ID" => Some(Self::BpfLinkGetNextId),
+            "BPF_ENABLE_STATS" => Some(Self::BpfEnableStats),
+            "BPF_ITER_CREATE" => Some(Self::BpfIterCreate),
+            "BPF_LINK_DETACH" => Some(Self::BpfLinkDetach),
+            "BPF_PROG_BIND_MAP" => Some(Self::BpfProgBindMap),
+            "BPF_TOKEN_CREATE" => Some(Self::BpfTokenCreate),
+            _ => None,
+        }
+    }
+}
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum BpfProgramType {
+    BpfProgTypeUnspec = 0,
+    BpfProgTypeSocketFilter = 1,
+    BpfProgTypeKprobe = 2,
+    BpfProgTypeSchedCls = 3,
+    BpfProgTypeSchedAct = 4,
+    BpfProgTypeTracepoint = 5,
+    BpfProgTypeXdp = 6,
+    BpfProgTypePerfEvent = 7,
+    BpfProgTypeCgroupSkb = 8,
+    BpfProgTypeCgroupSock = 9,
+    BpfProgTypeLwtIn = 10,
+    BpfProgTypeLwtOut = 11,
+    BpfProgTypeLwtXmit = 12,
+    BpfProgTypeSockOps = 13,
+    BpfProgTypeSkSkb = 14,
+    BpfProgTypeCgroupDevice = 15,
+    BpfProgTypeSkMsg = 16,
+    BpfProgTypeRawTracepoint = 17,
+    BpfProgTypeCgroupSockAddr = 18,
+    BpfProgTypeLwtSeg6local = 19,
+    BpfProgTypeLircMode2 = 20,
+    BpfProgTypeSkReuseport = 21,
+    BpfProgTypeFlowDissector = 22,
+    BpfProgTypeCgroupSysctl = 23,
+    BpfProgTypeRawTracepointWritable = 24,
+    BpfProgTypeCgroupSockopt = 25,
+    BpfProgTypeTracing = 26,
+    BpfProgTypeStructOps = 27,
+    BpfProgTypeExt = 28,
+    BpfProgTypeLsm = 29,
+    BpfProgTypeSkLookup = 30,
+    BpfProgTypeSyscall = 31,
+    BpfProgTypeNetfilter = 32,
+}
+impl BpfProgramType {
+    /// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            Self::BpfProgTypeUnspec => "BPF_PROG_TYPE_UNSPEC",
+            Self::BpfProgTypeSocketFilter => "BPF_PROG_TYPE_SOCKET_FILTER",
+            Self::BpfProgTypeKprobe => "BPF_PROG_TYPE_KPROBE",
+            Self::BpfProgTypeSchedCls => "BPF_PROG_TYPE_SCHED_CLS",
+            Self::BpfProgTypeSchedAct => "BPF_PROG_TYPE_SCHED_ACT",
+            Self::BpfProgTypeTracepoint => "BPF_PROG_TYPE_TRACEPOINT",
+            Self::BpfProgTypeXdp => "BPF_PROG_TYPE_XDP",
+            Self::BpfProgTypePerfEvent => "BPF_PROG_TYPE_PERF_EVENT",
+            Self::BpfProgTypeCgroupSkb => "BPF_PROG_TYPE_CGROUP_SKB",
+            Self::BpfProgTypeCgroupSock => "BPF_PROG_TYPE_CGROUP_SOCK",
+            Self::BpfProgTypeLwtIn => "BPF_PROG_TYPE_LWT_IN",
+            Self::BpfProgTypeLwtOut => "BPF_PROG_TYPE_LWT_OUT",
+            Self::BpfProgTypeLwtXmit => "BPF_PROG_TYPE_LWT_XMIT",
+            Self::BpfProgTypeSockOps => "BPF_PROG_TYPE_SOCK_OPS",
+            Self::BpfProgTypeSkSkb => "BPF_PROG_TYPE_SK_SKB",
+            Self::BpfProgTypeCgroupDevice => "BPF_PROG_TYPE_CGROUP_DEVICE",
+            Self::BpfProgTypeSkMsg => "BPF_PROG_TYPE_SK_MSG",
+            Self::BpfProgTypeRawTracepoint => "BPF_PROG_TYPE_RAW_TRACEPOINT",
+            Self::BpfProgTypeCgroupSockAddr => "BPF_PROG_TYPE_CGROUP_SOCK_ADDR",
+            Self::BpfProgTypeLwtSeg6local => "BPF_PROG_TYPE_LWT_SEG6LOCAL",
+            Self::BpfProgTypeLircMode2 => "BPF_PROG_TYPE_LIRC_MODE2",
+            Self::BpfProgTypeSkReuseport => "BPF_PROG_TYPE_SK_REUSEPORT",
+            Self::BpfProgTypeFlowDissector => "BPF_PROG_TYPE_FLOW_DISSECTOR",
+            Self::BpfProgTypeCgroupSysctl => "BPF_PROG_TYPE_CGROUP_SYSCTL",
+            Self::BpfProgTypeRawTracepointWritable => {
+                "BPF_PROG_TYPE_RAW_TRACEPOINT_WRITABLE"
+            }
+            Self::BpfProgTypeCgroupSockopt => "BPF_PROG_TYPE_CGROUP_SOCKOPT",
+            Self::BpfProgTypeTracing => "BPF_PROG_TYPE_TRACING",
+            Self::BpfProgTypeStructOps => "BPF_PROG_TYPE_STRUCT_OPS",
+            Self::BpfProgTypeExt => "BPF_PROG_TYPE_EXT",
+            Self::BpfProgTypeLsm => "BPF_PROG_TYPE_LSM",
+            Self::BpfProgTypeSkLookup => "BPF_PROG_TYPE_SK_LOOKUP",
+            Self::BpfProgTypeSyscall => "BPF_PROG_TYPE_SYSCALL",
+            Self::BpfProgTypeNetfilter => "BPF_PROG_TYPE_NETFILTER",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "BPF_PROG_TYPE_UNSPEC" => Some(Self::BpfProgTypeUnspec),
+            "BPF_PROG_TYPE_SOCKET_FILTER" => Some(Self::BpfProgTypeSocketFilter),
+            "BPF_PROG_TYPE_KPROBE" => Some(Self::BpfProgTypeKprobe),
+            "BPF_PROG_TYPE_SCHED_CLS" => Some(Self::BpfProgTypeSchedCls),
+            "BPF_PROG_TYPE_SCHED_ACT" => Some(Self::BpfProgTypeSchedAct),
+            "BPF_PROG_TYPE_TRACEPOINT" => Some(Self::BpfProgTypeTracepoint),
+            "BPF_PROG_TYPE_XDP" => Some(Self::BpfProgTypeXdp),
+            "BPF_PROG_TYPE_PERF_EVENT" => Some(Self::BpfProgTypePerfEvent),
+            "BPF_PROG_TYPE_CGROUP_SKB" => Some(Self::BpfProgTypeCgroupSkb),
+            "BPF_PROG_TYPE_CGROUP_SOCK" => Some(Self::BpfProgTypeCgroupSock),
+            "BPF_PROG_TYPE_LWT_IN" => Some(Self::BpfProgTypeLwtIn),
+            "BPF_PROG_TYPE_LWT_OUT" => Some(Self::BpfProgTypeLwtOut),
+            "BPF_PROG_TYPE_LWT_XMIT" => Some(Self::BpfProgTypeLwtXmit),
+            "BPF_PROG_TYPE_SOCK_OPS" => Some(Self::BpfProgTypeSockOps),
+            "BPF_PROG_TYPE_SK_SKB" => Some(Self::BpfProgTypeSkSkb),
+            "BPF_PROG_TYPE_CGROUP_DEVICE" => Some(Self::BpfProgTypeCgroupDevice),
+            "BPF_PROG_TYPE_SK_MSG" => Some(Self::BpfProgTypeSkMsg),
+            "BPF_PROG_TYPE_RAW_TRACEPOINT" => Some(Self::BpfProgTypeRawTracepoint),
+            "BPF_PROG_TYPE_CGROUP_SOCK_ADDR" => Some(Self::BpfProgTypeCgroupSockAddr),
+            "BPF_PROG_TYPE_LWT_SEG6LOCAL" => Some(Self::BpfProgTypeLwtSeg6local),
+            "BPF_PROG_TYPE_LIRC_MODE2" => Some(Self::BpfProgTypeLircMode2),
+            "BPF_PROG_TYPE_SK_REUSEPORT" => Some(Self::BpfProgTypeSkReuseport),
+            "BPF_PROG_TYPE_FLOW_DISSECTOR" => Some(Self::BpfProgTypeFlowDissector),
+            "BPF_PROG_TYPE_CGROUP_SYSCTL" => Some(Self::BpfProgTypeCgroupSysctl),
+            "BPF_PROG_TYPE_RAW_TRACEPOINT_WRITABLE" => {
+                Some(Self::BpfProgTypeRawTracepointWritable)
+            }
+            "BPF_PROG_TYPE_CGROUP_SOCKOPT" => Some(Self::BpfProgTypeCgroupSockopt),
+            "BPF_PROG_TYPE_TRACING" => Some(Self::BpfProgTypeTracing),
+            "BPF_PROG_TYPE_STRUCT_OPS" => Some(Self::BpfProgTypeStructOps),
+            "BPF_PROG_TYPE_EXT" => Some(Self::BpfProgTypeExt),
+            "BPF_PROG_TYPE_LSM" => Some(Self::BpfProgTypeLsm),
+            "BPF_PROG_TYPE_SK_LOOKUP" => Some(Self::BpfProgTypeSkLookup),
+            "BPF_PROG_TYPE_SYSCALL" => Some(Self::BpfProgTypeSyscall),
+            "BPF_PROG_TYPE_NETFILTER" => Some(Self::BpfProgTypeNetfilter),
+            _ => None,
+        }
+    }
+}
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Image {
     /// Identifier of the container image composed of the registry path and the
@@ -383,6 +703,12 @@ pub struct Image {
     /// Name of the container image composed of the registry path and the tag.
     #[prost(string, tag = "2")]
     pub name: ::prost::alloc::string::String,
+}
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct SecurityContext {
+    /// True if this container is priviledged.
+    #[prost(bool, tag = "1")]
+    pub privileged: bool,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Container {
@@ -409,6 +735,9 @@ pub struct Container {
     /// 2. The arguments field exactly matches the rest of the exec command list.
     #[prost(bool, tag = "13")]
     pub maybe_exec_probe: bool,
+    /// The security context of the container
+    #[prost(message, optional, tag = "14")]
+    pub security_context: ::core::option::Option<SecurityContext>,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Pod {
@@ -434,6 +763,12 @@ pub struct Pod {
     /// Kubernetes workload kind (e.g. "Deployment", "DaemonSet") of the Pod.
     #[prost(string, tag = "7")]
     pub workload_kind: ::prost::alloc::string::String,
+    /// Contains all the annotations of the pod.
+    #[prost(map = "string, string", tag = "8")]
+    pub pod_annotations: ::std::collections::HashMap<
+        ::prost::alloc::string::String,
+        ::prost::alloc::string::String,
+    >,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Capabilities {
@@ -513,28 +848,28 @@ pub struct UserNamespace {
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ProcessCredentials {
-    /// The real user ID
+    /// The real user ID of the process' owner.
     #[prost(message, optional, tag = "1")]
     pub uid: ::core::option::Option<u32>,
-    /// The real group ID
+    /// The real group ID of the process' owner.
     #[prost(message, optional, tag = "2")]
     pub gid: ::core::option::Option<u32>,
-    /// The effective user ID
+    /// The effective user ID used for permission checks.
     #[prost(message, optional, tag = "3")]
     pub euid: ::core::option::Option<u32>,
-    /// The effective group ID
+    /// The effective group ID used for permission checks.
     #[prost(message, optional, tag = "4")]
     pub egid: ::core::option::Option<u32>,
-    /// The saved user ID
+    /// The saved user ID.
     #[prost(message, optional, tag = "5")]
     pub suid: ::core::option::Option<u32>,
-    /// The saved group ID
+    /// The saved group ID.
     #[prost(message, optional, tag = "6")]
     pub sgid: ::core::option::Option<u32>,
-    /// the filesystem user ID
+    /// the filesystem user ID used for filesystem access checks. Usually equals the euid.
     #[prost(message, optional, tag = "7")]
     pub fsuid: ::core::option::Option<u32>,
-    /// The filesystem group ID
+    /// The filesystem group ID used for filesystem access checks. Usually equals the egid.
     #[prost(message, optional, tag = "8")]
     pub fsgid: ::core::option::Option<u32>,
     /// Secure management flags
@@ -585,6 +920,14 @@ pub struct BinaryProperties {
     #[prost(message, optional, tag = "4")]
     pub file: ::core::option::Option<FileProperties>,
 }
+/// User records
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UserRecord {
+    /// The UNIX username for this record. Corresponds to `pw_name` field of [struct passwd](<https://man7.org/linux/man-pages/man3/getpwnam.3.html>)
+    /// and the `sp_namp` field of [struct spwd](<https://man7.org/linux/man-pages/man3/getspnam.3.html>).
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Process {
     /// Exec ID uniquely identifies the process over time across all the nodes in the cluster.
@@ -593,7 +936,9 @@ pub struct Process {
     /// Process identifier from host PID namespace.
     #[prost(message, optional, tag = "2")]
     pub pid: ::core::option::Option<u32>,
-    /// User identifier associated with the process.
+    /// The effective User identifier used for permission checks. This field maps to the
+    /// 'ProcessCredentials.euid' field. Run with the `--enable-process-cred` flag to
+    /// enable 'ProcessCredentials' and get all the User and Group identifiers.
     #[prost(message, optional, tag = "3")]
     pub uid: ::core::option::Option<u32>,
     /// Current working directory of the process.
@@ -659,6 +1004,8 @@ pub struct Process {
     /// current process with a new process by doing an exec* without a clone. In
     /// this case the flag will be omitted and the same PID will be used by the
     /// kernel for both the old process and the newly exec'd process.
+    /// - `unknown` Indicates the process was not found in the process cache
+    /// and contains just pid and start time.
     #[prost(string, tag = "7")]
     pub flags: ::prost::alloc::string::String,
     /// Start time of the execution.
@@ -691,12 +1038,28 @@ pub struct Process {
     /// Thread ID, note that for the thread group leader, tid is equal to pid.
     #[prost(message, optional, tag = "16")]
     pub tid: ::core::option::Option<u32>,
-    /// Process credentials
+    /// Process credentials, disabled by default, can be enabled by the
+    /// `--enable-process-cred` flag.
     #[prost(message, optional, tag = "17")]
     pub process_credentials: ::core::option::Option<ProcessCredentials>,
     /// Executed binary properties. This field is only available on ProcessExec events.
     #[prost(message, optional, tag = "18")]
     pub binary_properties: ::core::option::Option<BinaryProperties>,
+    /// UserRecord contains user information about the event.
+    /// It is only supported when i) Tetragon is running as a systemd service or directly on the host, and
+    /// ii) when the flag `--username-metadata` is set to "unix". In this case, the information is retrieved from
+    /// the traditional user database `/etc/passwd` and no name services lookups are performed.
+    /// The resolution will only be attempted for processes in the host namespace.
+    /// Note that this resolution happens in user-space, which means that mapping might have changed
+    /// between the in-kernel BPF hook being executed and the username resolution.
+    #[prost(message, optional, tag = "19")]
+    pub user: ::core::option::Option<UserRecord>,
+    /// If set to true, this process is containerized and is a member of the
+    /// process tree rooted at pid=1 in its PID namespace. This is useful if,
+    /// for example, you wish to discern whether a process was spawned using a
+    /// tool like nsenter or kubectl exec.
+    #[prost(message, optional, tag = "20")]
+    pub in_init_tree: ::core::option::Option<bool>,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ProcessExec {
@@ -731,6 +1094,9 @@ pub struct ProcessExit {
     /// Date and time of the event.
     #[prost(message, optional, tag = "5")]
     pub time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Ancestors of the process beyond the immediate parent.
+    #[prost(message, repeated, tag = "6")]
+    pub ancestors: ::prost::alloc::vec::Vec<Process>,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct KprobeSock {
@@ -787,6 +1153,20 @@ pub struct KprobeSkb {
     pub family: ::prost::alloc::string::String,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
+pub struct KprobeSockaddr {
+    #[prost(string, tag = "1")]
+    pub family: ::prost::alloc::string::String,
+    #[prost(string, tag = "2")]
+    pub addr: ::prost::alloc::string::String,
+    #[prost(uint32, tag = "3")]
+    pub port: u32,
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct KprobeNetDev {
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
 pub struct KprobePath {
     #[prost(string, tag = "1")]
     pub mount: ::prost::alloc::string::String,
@@ -794,6 +1174,8 @@ pub struct KprobePath {
     pub path: ::prost::alloc::string::String,
     #[prost(string, tag = "3")]
     pub flags: ::prost::alloc::string::String,
+    #[prost(string, tag = "4")]
+    pub permission: ::prost::alloc::string::String,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct KprobeFile {
@@ -803,6 +1185,8 @@ pub struct KprobeFile {
     pub path: ::prost::alloc::string::String,
     #[prost(string, tag = "3")]
     pub flags: ::prost::alloc::string::String,
+    #[prost(string, tag = "4")]
+    pub permission: ::prost::alloc::string::String,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct KprobeTruncatedBytes {
@@ -824,6 +1208,10 @@ pub struct KprobeCred {
 pub struct KprobeLinuxBinprm {
     #[prost(string, tag = "1")]
     pub path: ::prost::alloc::string::String,
+    #[prost(string, tag = "2")]
+    pub flags: ::prost::alloc::string::String,
+    #[prost(string, tag = "3")]
+    pub permission: ::prost::alloc::string::String,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct KprobeCapability {
@@ -877,12 +1265,19 @@ pub struct KprobeBpfMap {
     pub map_name: ::prost::alloc::string::String,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SyscallId {
+    #[prost(uint32, tag = "1")]
+    pub id: u32,
+    #[prost(string, tag = "2")]
+    pub abi: ::prost::alloc::string::String,
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
 pub struct KprobeArgument {
     #[prost(string, tag = "18")]
     pub label: ::prost::alloc::string::String,
     #[prost(
         oneof = "kprobe_argument::Arg",
-        tags = "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 19, 20, 21, 22, 23, 24, 25, 26"
+        tags = "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30"
     )]
     pub arg: ::core::option::Option<kprobe_argument::Arg>,
 }
@@ -944,6 +1339,14 @@ pub mod kprobe_argument {
         CapEffectiveArg(::prost::alloc::string::String),
         #[prost(message, tag = "26")]
         LinuxBinprmArg(super::KprobeLinuxBinprm),
+        #[prost(message, tag = "27")]
+        NetDevArg(super::KprobeNetDev),
+        #[prost(enumeration = "super::BpfCmd", tag = "28")]
+        BpfCmdArg(i32),
+        #[prost(message, tag = "29")]
+        SyscallId(super::SyscallId),
+        #[prost(message, tag = "30")]
+        SockaddrArg(super::KprobeSockaddr),
     }
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -968,7 +1371,7 @@ pub struct ProcessKprobe {
     pub action: i32,
     /// Kernel stack trace to the call.
     #[prost(message, repeated, tag = "7")]
-    pub stack_trace: ::prost::alloc::vec::Vec<StackTraceEntry>,
+    pub kernel_stack_trace: ::prost::alloc::vec::Vec<StackTraceEntry>,
     /// Name of the Tracing Policy that created that kprobe.
     #[prost(string, tag = "8")]
     pub policy_name: ::prost::alloc::string::String,
@@ -978,6 +1381,15 @@ pub struct ProcessKprobe {
     /// Short message of the Tracing Policy to inform users what is going on.
     #[prost(string, tag = "10")]
     pub message: ::prost::alloc::string::String,
+    /// Tags of the Tracing Policy to categorize the event.
+    #[prost(string, repeated, tag = "11")]
+    pub tags: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// User-mode stack trace to the call.
+    #[prost(message, repeated, tag = "12")]
+    pub user_stack_trace: ::prost::alloc::vec::Vec<StackTraceEntry>,
+    /// Ancestors of the process beyond the immediate parent.
+    #[prost(message, repeated, tag = "13")]
+    pub ancestors: ::prost::alloc::vec::Vec<Process>,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ProcessTracepoint {
@@ -1006,6 +1418,12 @@ pub struct ProcessTracepoint {
     /// Short message of the Tracing Policy to inform users what is going on.
     #[prost(string, tag = "9")]
     pub message: ::prost::alloc::string::String,
+    /// Tags of the Tracing Policy to categorize the event.
+    #[prost(string, repeated, tag = "10")]
+    pub tags: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Ancestors of the process beyond the immediate parent.
+    #[prost(message, repeated, tag = "11")]
+    pub ancestors: ::prost::alloc::vec::Vec<Process>,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ProcessUprobe {
@@ -1026,6 +1444,49 @@ pub struct ProcessUprobe {
     /// Arguments definition of the observed uprobe.
     #[prost(message, repeated, tag = "7")]
     pub args: ::prost::alloc::vec::Vec<KprobeArgument>,
+    /// Tags of the Tracing Policy to categorize the event.
+    #[prost(string, repeated, tag = "8")]
+    pub tags: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Ancestors of the process beyond the immediate parent.
+    #[prost(message, repeated, tag = "9")]
+    pub ancestors: ::prost::alloc::vec::Vec<Process>,
+    /// uprobe offset (mutualy exclusive with symbol)
+    #[prost(uint64, tag = "10")]
+    pub offset: u64,
+    /// uprobe ref_ctr_offset
+    #[prost(uint64, tag = "11")]
+    pub ref_ctr_offset: u64,
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ProcessLsm {
+    #[prost(message, optional, tag = "1")]
+    pub process: ::core::option::Option<Process>,
+    #[prost(message, optional, tag = "2")]
+    pub parent: ::core::option::Option<Process>,
+    /// LSM hook name.
+    #[prost(string, tag = "3")]
+    pub function_name: ::prost::alloc::string::String,
+    /// Name of the policy that created that LSM hook.
+    #[prost(string, tag = "5")]
+    pub policy_name: ::prost::alloc::string::String,
+    /// Short message of the Tracing Policy to inform users what is going on.
+    #[prost(string, tag = "6")]
+    pub message: ::prost::alloc::string::String,
+    /// Arguments definition of the observed LSM hook.
+    #[prost(message, repeated, tag = "7")]
+    pub args: ::prost::alloc::vec::Vec<KprobeArgument>,
+    /// Action performed when the LSM hook matched.
+    #[prost(enumeration = "KprobeAction", tag = "8")]
+    pub action: i32,
+    /// Tags of the Tracing Policy to categorize the event.
+    #[prost(string, repeated, tag = "9")]
+    pub tags: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Ancestors of the process beyond the immediate parent.
+    #[prost(message, repeated, tag = "10")]
+    pub ancestors: ::prost::alloc::vec::Vec<Process>,
+    /// IMA file hash. Format algorithm:value.
+    #[prost(string, tag = "11")]
+    pub ima_hash: ::prost::alloc::string::String,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct KernelModule {
@@ -1100,6 +1561,10 @@ pub struct RuntimeHookResponse {}
 /// This is intented to be used by OCI hooks (but not limited to them) and corresponds to the
 /// CreateContainer hook:
 /// <https://github.com/opencontainers/runtime-spec/blob/main/config.md#createcontainer-hooks.>
+///
+/// The containerName, containerID, podName, podUID, and podNamespace fields are retrieved from the
+/// annotations as a convenience, and may be left empty if the corresponding annotations are not
+/// found.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CreateContainer {
     /// cgroupsPath is the cgroups path for the container. The path is expected to be relative to the
@@ -1117,10 +1582,28 @@ pub struct CreateContainer {
         ::prost::alloc::string::String,
         ::prost::alloc::string::String,
     >,
+    /// containerName is the name of the container
+    #[prost(string, tag = "4")]
+    pub container_name: ::prost::alloc::string::String,
+    /// containerID is the id of the container
+    #[prost(string, tag = "5")]
+    pub container_id: ::prost::alloc::string::String,
+    /// podName is the pod name
+    #[prost(string, tag = "6")]
+    pub pod_name: ::prost::alloc::string::String,
+    /// podUID is the pod uid
+    #[prost(string, tag = "7")]
+    pub pod_uid: ::prost::alloc::string::String,
+    /// podNamespace is the namespace of the pod
+    #[prost(string, tag = "8")]
+    pub pod_namespace: ::prost::alloc::string::String,
+    /// containerImage is the full image location (repo + image)
+    #[prost(string, tag = "9")]
+    pub container_image: ::prost::alloc::string::String,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct StackTraceEntry {
-    /// address is the kernel function address.
+    /// linear address of the function in kernel or user space.
     #[prost(uint64, tag = "1")]
     pub address: u64,
     /// offset is the offset into the native instructions for the function.
@@ -1129,6 +1612,9 @@ pub struct StackTraceEntry {
     /// symbol is the symbol name of the function.
     #[prost(string, tag = "3")]
     pub symbol: ::prost::alloc::string::String,
+    /// module path for user space addresses.
+    #[prost(string, tag = "4")]
+    pub module: ::prost::alloc::string::String,
 }
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
@@ -1160,8 +1646,10 @@ pub enum KprobeAction {
     Tracksock = 11,
     /// UntrackSock action un-tracks socket.
     Untracksock = 12,
-    /// NotifyKiller action notifies killer sensor.
-    Notifykiller = 13,
+    /// NotifyEnforcer action notifies enforcer sensor.
+    Notifyenforcer = 13,
+    /// CleanupEnforcerNotification action cleanups any state left by NotifyEnforcer
+    Cleanupenforcernotification = 14,
 }
 impl KprobeAction {
     /// String value of the enum field names used in the ProtoBuf definition.
@@ -1183,7 +1671,10 @@ impl KprobeAction {
             Self::Signal => "KPROBE_ACTION_SIGNAL",
             Self::Tracksock => "KPROBE_ACTION_TRACKSOCK",
             Self::Untracksock => "KPROBE_ACTION_UNTRACKSOCK",
-            Self::Notifykiller => "KPROBE_ACTION_NOTIFYKILLER",
+            Self::Notifyenforcer => "KPROBE_ACTION_NOTIFYENFORCER",
+            Self::Cleanupenforcernotification => {
+                "KPROBE_ACTION_CLEANUPENFORCERNOTIFICATION"
+            }
         }
     }
     /// Creates an enum from field names used in the ProtoBuf definition.
@@ -1202,7 +1693,10 @@ impl KprobeAction {
             "KPROBE_ACTION_SIGNAL" => Some(Self::Signal),
             "KPROBE_ACTION_TRACKSOCK" => Some(Self::Tracksock),
             "KPROBE_ACTION_UNTRACKSOCK" => Some(Self::Untracksock),
-            "KPROBE_ACTION_NOTIFYKILLER" => Some(Self::Notifykiller),
+            "KPROBE_ACTION_NOTIFYENFORCER" => Some(Self::Notifyenforcer),
+            "KPROBE_ACTION_CLEANUPENFORCERNOTIFICATION" => {
+                Some(Self::Cleanupenforcernotification)
+            }
             _ => None,
         }
     }
@@ -1356,6 +1850,78 @@ pub struct Filter {
     /// Filter events by tracing policy names
     #[prost(string, repeated, tag = "10")]
     pub policy_names: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Filter events by Linux process capability
+    #[prost(message, optional, tag = "11")]
+    pub capabilities: ::core::option::Option<CapFilter>,
+    /// Filter parent process' binary using RE2 regular expression syntax.
+    #[prost(string, repeated, tag = "12")]
+    pub parent_binary_regex: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Filter using CEL expressions. CEL filters support IP and CIDR notiation extensions from the k8s project.
+    /// See <https://pkg.go.dev/k8s.io/apiserver/pkg/cel/library#IP> and <https://pkg.go.dev/k8s.io/apiserver/pkg/cel/library#CIDR> for details.
+    #[prost(string, repeated, tag = "13")]
+    pub cel_expression: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Filter by process.parent.arguments field using RE2 regular expression syntax:
+    /// <https://github.com/google/re2/wiki/Syntax>
+    #[prost(string, repeated, tag = "14")]
+    pub parent_arguments_regex: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Filter by the container ID in the process.docker field using RE2 regular expression syntax:
+    /// <https://github.com/google/re2/wiki/Syntax>
+    #[prost(string, repeated, tag = "15")]
+    pub container_id: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Filter containerized processes based on whether they are descendants of
+    /// the container's init process. This can be used, for example, to watch
+    /// for processes injected into a container via docker exec, kubectl exec, or
+    /// similar mechanisms.
+    #[prost(message, optional, tag = "16")]
+    pub in_init_tree: ::core::option::Option<bool>,
+    /// Filter ancestor processes' binaries using RE2 regular expression syntax.
+    #[prost(string, repeated, tag = "17")]
+    pub ancestor_binary_regex: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// Filter over a set of Linux process capabilities. See `message Capabilities`
+/// for more info.  WARNING: Multiple sets are ANDed. For example, if the
+/// permitted filter matches, but the effective filter does not, the filter will
+/// NOT match.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CapFilter {
+    /// Filter over the set of permitted capabilities.
+    #[prost(message, optional, tag = "1")]
+    pub permitted: ::core::option::Option<CapFilterSet>,
+    /// Filter over the set of effective capabilities.
+    #[prost(message, optional, tag = "2")]
+    pub effective: ::core::option::Option<CapFilterSet>,
+    /// Filter over the set of inheritable capabilities.
+    #[prost(message, optional, tag = "3")]
+    pub inheritable: ::core::option::Option<CapFilterSet>,
+}
+/// Capability set to filter over. NOTE: you may specify only ONE set here.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CapFilterSet {
+    /// Match if the capability set contains any of the capabilities defined in this filter.
+    #[prost(enumeration = "CapabilitiesType", repeated, tag = "1")]
+    pub any: ::prost::alloc::vec::Vec<i32>,
+    /// Match if the capability set contains all of the capabilities defined in this filter.
+    #[prost(enumeration = "CapabilitiesType", repeated, tag = "2")]
+    pub all: ::prost::alloc::vec::Vec<i32>,
+    /// Match if the capability set exactly matches all of the capabilities defined in this filter.
+    #[prost(enumeration = "CapabilitiesType", repeated, tag = "3")]
+    pub exactly: ::prost::alloc::vec::Vec<i32>,
+    /// Match if the capability set contains none of the capabilities defined in this filter.
+    #[prost(enumeration = "CapabilitiesType", repeated, tag = "4")]
+    pub none: ::prost::alloc::vec::Vec<i32>,
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct RedactionFilter {
+    /// Deprecated, do not use.
+    #[deprecated]
+    #[prost(message, repeated, tag = "1")]
+    pub r#match: ::prost::alloc::vec::Vec<Filter>,
+    /// RE2 regular expressions to use for redaction. Strings inside capture groups are redacted.
+    #[prost(string, repeated, tag = "2")]
+    pub redact: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// RE2 regular expression to match binary name. If supplied, redactions will only be applied to matching processes.
+    #[prost(string, repeated, tag = "3")]
+    pub binary_regex: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct FieldFilter {
@@ -1423,6 +1989,15 @@ pub struct RateLimitInfo {
     pub number_of_dropped_process_events: u64,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ProcessThrottle {
+    /// Throttle type
+    #[prost(enumeration = "ThrottleType", tag = "1")]
+    pub r#type: i32,
+    /// Cgroup name
+    #[prost(string, tag = "2")]
+    pub cgroup: ::prost::alloc::string::String,
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetEventsResponse {
     /// Name of the node where this event was observed.
     #[prost(string, tag = "1000")]
@@ -1436,12 +2011,21 @@ pub struct GetEventsResponse {
     /// is set only for aggregated responses.
     #[prost(message, optional, tag = "1002")]
     pub aggregation_info: ::core::option::Option<AggregationInfo>,
+    /// Name of the cluster where this event was observed.
+    #[prost(string, tag = "1003")]
+    pub cluster_name: ::prost::alloc::string::String,
+    /// Labels associated with the node where this event was observed.
+    #[prost(map = "string, string", tag = "1004")]
+    pub node_labels: ::std::collections::HashMap<
+        ::prost::alloc::string::String,
+        ::prost::alloc::string::String,
+    >,
     /// The type-specific fields of an event.
     ///
     /// NOTE: Numbers must stay in sync with enum EventType.
     #[prost(
         oneof = "get_events_response::Event",
-        tags = "1, 5, 9, 10, 11, 12, 40000, 40001"
+        tags = "1, 5, 9, 10, 11, 12, 27, 28, 40000, 40001"
     )]
     pub event: ::core::option::Option<get_events_response::Event>,
 }
@@ -1471,6 +2055,10 @@ pub mod get_events_response {
         ProcessLoader(super::ProcessLoader),
         #[prost(message, tag = "12")]
         ProcessUprobe(super::ProcessUprobe),
+        #[prost(message, tag = "27")]
+        ProcessThrottle(super::ProcessThrottle),
+        #[prost(message, tag = "28")]
+        ProcessLsm(super::ProcessLsm),
         #[prost(message, tag = "40000")]
         Test(super::Test),
         #[prost(message, tag = "40001")]
@@ -1491,6 +2079,8 @@ pub enum EventType {
     ProcessTracepoint = 10,
     ProcessLoader = 11,
     ProcessUprobe = 12,
+    ProcessThrottle = 27,
+    ProcessLsm = 28,
     Test = 40000,
     RateLimitInfo = 40001,
 }
@@ -1508,6 +2098,8 @@ impl EventType {
             Self::ProcessTracepoint => "PROCESS_TRACEPOINT",
             Self::ProcessLoader => "PROCESS_LOADER",
             Self::ProcessUprobe => "PROCESS_UPROBE",
+            Self::ProcessThrottle => "PROCESS_THROTTLE",
+            Self::ProcessLsm => "PROCESS_LSM",
             Self::Test => "TEST",
             Self::RateLimitInfo => "RATE_LIMIT_INFO",
         }
@@ -1522,6 +2114,8 @@ impl EventType {
             "PROCESS_TRACEPOINT" => Some(Self::ProcessTracepoint),
             "PROCESS_LOADER" => Some(Self::ProcessLoader),
             "PROCESS_UPROBE" => Some(Self::ProcessUprobe),
+            "PROCESS_THROTTLE" => Some(Self::ProcessThrottle),
+            "PROCESS_LSM" => Some(Self::ProcessLsm),
             "TEST" => Some(Self::Test),
             "RATE_LIMIT_INFO" => Some(Self::RateLimitInfo),
             _ => None,
@@ -1551,6 +2145,35 @@ impl FieldFilterAction {
         match value {
             "INCLUDE" => Some(Self::Include),
             "EXCLUDE" => Some(Self::Exclude),
+            _ => None,
+        }
+    }
+}
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum ThrottleType {
+    ThrottleUnknown = 0,
+    ThrottleStart = 1,
+    ThrottleStop = 2,
+}
+impl ThrottleType {
+    /// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            Self::ThrottleUnknown => "THROTTLE_UNKNOWN",
+            Self::ThrottleStart => "THROTTLE_START",
+            Self::ThrottleStop => "THROTTLE_STOP",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "THROTTLE_UNKNOWN" => Some(Self::ThrottleUnknown),
+            "THROTTLE_START" => Some(Self::ThrottleStart),
+            "THROTTLE_STOP" => Some(Self::ThrottleStop),
             _ => None,
         }
     }
@@ -1636,6 +2259,12 @@ pub struct TracingPolicyStatus {
     /// current state of the tracing policy
     #[prost(enumeration = "TracingPolicyState", tag = "9")]
     pub state: i32,
+    /// the amount of kernel memory in bytes used by policy's sensors non-shared BPF maps (memlock)
+    #[prost(uint64, tag = "10")]
+    pub kernel_memory_bytes: u64,
+    /// current mode of the tracing policy
+    #[prost(enumeration = "TracingPolicyMode", tag = "11")]
+    pub mode: i32,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListTracingPoliciesResponse {
@@ -1653,6 +2282,8 @@ pub struct AddTracingPolicyResponse {}
 pub struct DeleteTracingPolicyRequest {
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
+    #[prost(string, tag = "2")]
+    pub namespace: ::prost::alloc::string::String,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct DeleteTracingPolicyResponse {}
@@ -1660,6 +2291,8 @@ pub struct DeleteTracingPolicyResponse {}
 pub struct EnableTracingPolicyRequest {
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
+    #[prost(string, tag = "2")]
+    pub namespace: ::prost::alloc::string::String,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct EnableTracingPolicyResponse {}
@@ -1667,9 +2300,24 @@ pub struct EnableTracingPolicyResponse {}
 pub struct DisableTracingPolicyRequest {
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
+    #[prost(string, tag = "2")]
+    pub namespace: ::prost::alloc::string::String,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct DisableTracingPolicyResponse {}
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ConfigureTracingPolicyRequest {
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    #[prost(string, tag = "2")]
+    pub namespace: ::prost::alloc::string::String,
+    #[prost(bool, optional, tag = "3")]
+    pub enable: ::core::option::Option<bool>,
+    #[prost(enumeration = "TracingPolicyMode", optional, tag = "4")]
+    pub mode: ::core::option::Option<i32>,
+}
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct ConfigureTracingPolicyResponse {}
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct RemoveSensorRequest {
     #[prost(string, tag = "1")]
@@ -1708,6 +2356,99 @@ pub struct GetVersionResponse {
     #[prost(string, tag = "1")]
     pub version: ::prost::alloc::string::String,
 }
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct DumpProcessCacheReqArgs {
+    #[prost(bool, tag = "1")]
+    pub skip_zero_refcnt: bool,
+    #[prost(bool, tag = "2")]
+    pub exclude_execve_map_processes: bool,
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ProcessInternal {
+    #[prost(message, optional, tag = "1")]
+    pub process: ::core::option::Option<Process>,
+    #[prost(string, tag = "2")]
+    pub color: ::prost::alloc::string::String,
+    #[prost(message, optional, tag = "3")]
+    pub refcnt: ::core::option::Option<u32>,
+    /// refcnt_ops is a map of operations to refcnt change
+    /// keys can be:
+    /// - "process++": process increased refcnt (i.e. this process starts)
+    /// - "process--": process decreased refcnt (i.e. this process exits)
+    /// - "parent++": parent increased refcnt (i.e. a process starts that has this process as a parent)
+    /// - "parent--": parent decreased refcnt (i.e. a process exits that has this process as a parent)
+    /// - "ancestor++": ancestor increased refcnt (i.e. a process starts that has this process as an ancestor)
+    /// - "ancestor--": ancestor decreased refcnt (i.e. a process exits that has this process as an ancestor)
+    #[prost(map = "string, int32", tag = "4")]
+    pub refcnt_ops: ::std::collections::HashMap<::prost::alloc::string::String, i32>,
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DumpProcessCacheResArgs {
+    #[prost(message, repeated, tag = "1")]
+    pub processes: ::prost::alloc::vec::Vec<ProcessInternal>,
+}
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct GetDebugRequest {
+    #[prost(enumeration = "ConfigFlag", tag = "1")]
+    pub flag: i32,
+    #[prost(oneof = "get_debug_request::Arg", tags = "2")]
+    pub arg: ::core::option::Option<get_debug_request::Arg>,
+}
+/// Nested message and enum types in `GetDebugRequest`.
+pub mod get_debug_request {
+    #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
+    pub enum Arg {
+        #[prost(message, tag = "2")]
+        Dump(super::DumpProcessCacheReqArgs),
+    }
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetDebugResponse {
+    #[prost(enumeration = "ConfigFlag", tag = "1")]
+    pub flag: i32,
+    #[prost(oneof = "get_debug_response::Arg", tags = "2, 3")]
+    pub arg: ::core::option::Option<get_debug_response::Arg>,
+}
+/// Nested message and enum types in `GetDebugResponse`.
+pub mod get_debug_response {
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Arg {
+        #[prost(enumeration = "super::LogLevel", tag = "2")]
+        Level(i32),
+        #[prost(message, tag = "3")]
+        Processes(super::DumpProcessCacheResArgs),
+    }
+}
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct SetDebugRequest {
+    #[prost(enumeration = "ConfigFlag", tag = "1")]
+    pub flag: i32,
+    #[prost(oneof = "set_debug_request::Arg", tags = "2")]
+    pub arg: ::core::option::Option<set_debug_request::Arg>,
+}
+/// Nested message and enum types in `SetDebugRequest`.
+pub mod set_debug_request {
+    #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
+    pub enum Arg {
+        #[prost(enumeration = "super::LogLevel", tag = "2")]
+        Level(i32),
+    }
+}
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct SetDebugResponse {
+    #[prost(enumeration = "ConfigFlag", tag = "1")]
+    pub flag: i32,
+    #[prost(oneof = "set_debug_response::Arg", tags = "2")]
+    pub arg: ::core::option::Option<set_debug_response::Arg>,
+}
+/// Nested message and enum types in `SetDebugResponse`.
+pub mod set_debug_response {
+    #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
+    pub enum Arg {
+        #[prost(enumeration = "super::LogLevel", tag = "2")]
+        Level(i32),
+    }
+}
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
 pub enum TracingPolicyState {
@@ -1721,6 +2462,10 @@ pub enum TracingPolicyState {
     TpStateLoadError = 3,
     /// failed during lifetime
     TpStateError = 4,
+    /// in the process of loading
+    TpStateLoading = 5,
+    /// in the process of unloading
+    TpStateUnloading = 6,
 }
 impl TracingPolicyState {
     /// String value of the enum field names used in the ProtoBuf definition.
@@ -1734,6 +2479,8 @@ impl TracingPolicyState {
             Self::TpStateDisabled => "TP_STATE_DISABLED",
             Self::TpStateLoadError => "TP_STATE_LOAD_ERROR",
             Self::TpStateError => "TP_STATE_ERROR",
+            Self::TpStateLoading => "TP_STATE_LOADING",
+            Self::TpStateUnloading => "TP_STATE_UNLOADING",
         }
     }
     /// Creates an enum from field names used in the ProtoBuf definition.
@@ -1744,6 +2491,105 @@ impl TracingPolicyState {
             "TP_STATE_DISABLED" => Some(Self::TpStateDisabled),
             "TP_STATE_LOAD_ERROR" => Some(Self::TpStateLoadError),
             "TP_STATE_ERROR" => Some(Self::TpStateError),
+            "TP_STATE_LOADING" => Some(Self::TpStateLoading),
+            "TP_STATE_UNLOADING" => Some(Self::TpStateUnloading),
+            _ => None,
+        }
+    }
+}
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum TracingPolicyMode {
+    TpModeUnknown = 0,
+    TpModeEnforce = 1,
+    TpModeMonitor = 2,
+}
+impl TracingPolicyMode {
+    /// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            Self::TpModeUnknown => "TP_MODE_UNKNOWN",
+            Self::TpModeEnforce => "TP_MODE_ENFORCE",
+            Self::TpModeMonitor => "TP_MODE_MONITOR",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "TP_MODE_UNKNOWN" => Some(Self::TpModeUnknown),
+            "TP_MODE_ENFORCE" => Some(Self::TpModeEnforce),
+            "TP_MODE_MONITOR" => Some(Self::TpModeMonitor),
+            _ => None,
+        }
+    }
+}
+/// For now, we only want to support debug-related config flags to be configurable.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum ConfigFlag {
+    LogLevel = 0,
+    DumpProcessCache = 1,
+}
+impl ConfigFlag {
+    /// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            Self::LogLevel => "CONFIG_FLAG_LOG_LEVEL",
+            Self::DumpProcessCache => "CONFIG_FLAG_DUMP_PROCESS_CACHE",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "CONFIG_FLAG_LOG_LEVEL" => Some(Self::LogLevel),
+            "CONFIG_FLAG_DUMP_PROCESS_CACHE" => Some(Self::DumpProcessCache),
+            _ => None,
+        }
+    }
+}
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum LogLevel {
+    Panic = 0,
+    Fatal = 1,
+    Error = 2,
+    Warn = 3,
+    Info = 4,
+    Debug = 5,
+    Trace = 6,
+}
+impl LogLevel {
+    /// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            Self::Panic => "LOG_LEVEL_PANIC",
+            Self::Fatal => "LOG_LEVEL_FATAL",
+            Self::Error => "LOG_LEVEL_ERROR",
+            Self::Warn => "LOG_LEVEL_WARN",
+            Self::Info => "LOG_LEVEL_INFO",
+            Self::Debug => "LOG_LEVEL_DEBUG",
+            Self::Trace => "LOG_LEVEL_TRACE",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "LOG_LEVEL_PANIC" => Some(Self::Panic),
+            "LOG_LEVEL_FATAL" => Some(Self::Fatal),
+            "LOG_LEVEL_ERROR" => Some(Self::Error),
+            "LOG_LEVEL_WARN" => Some(Self::Warn),
+            "LOG_LEVEL_INFO" => Some(Self::Info),
+            "LOG_LEVEL_DEBUG" => Some(Self::Debug),
+            "LOG_LEVEL_TRACE" => Some(Self::Trace),
             _ => None,
         }
     }
@@ -1942,30 +2788,6 @@ pub mod fine_guidance_sensors_client {
                 );
             self.inner.unary(req, path, codec).await
         }
-        pub async fn remove_sensor(
-            &mut self,
-            request: impl tonic::IntoRequest<super::RemoveSensorRequest>,
-        ) -> std::result::Result<
-            tonic::Response<super::RemoveSensorResponse>,
-            tonic::Status,
-        > {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::unknown(
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/tetragon.FineGuidanceSensors/RemoveSensor",
-            );
-            let mut req = request.into_request();
-            req.extensions_mut()
-                .insert(GrpcMethod::new("tetragon.FineGuidanceSensors", "RemoveSensor"));
-            self.inner.unary(req, path, codec).await
-        }
         pub async fn list_tracing_policies(
             &mut self,
             request: impl tonic::IntoRequest<super::ListTracingPoliciesRequest>,
@@ -1995,6 +2817,42 @@ pub mod fine_guidance_sensors_client {
                 );
             self.inner.unary(req, path, codec).await
         }
+        /// ConfigureTracingPolicy can be used to configure a loaded tracing policy.
+        /// It can be used to:
+        ///   - enable/disable it
+        ///   - change its mode (enforcement vs monitoring)
+        /// If multiple changes are requested and an error is encountered, the resulting state might have
+        /// partial updates applied. In other words, the configuring a tracing policy is not atomic.
+        pub async fn configure_tracing_policy(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ConfigureTracingPolicyRequest>,
+        ) -> std::result::Result<
+            tonic::Response<super::ConfigureTracingPolicyResponse>,
+            tonic::Status,
+        > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::unknown(
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/tetragon.FineGuidanceSensors/ConfigureTracingPolicy",
+            );
+            let mut req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        "tetragon.FineGuidanceSensors",
+                        "ConfigureTracingPolicy",
+                    ),
+                );
+            self.inner.unary(req, path, codec).await
+        }
+        #[deprecated]
         pub async fn enable_tracing_policy(
             &mut self,
             request: impl tonic::IntoRequest<super::EnableTracingPolicyRequest>,
@@ -2024,6 +2882,7 @@ pub mod fine_guidance_sensors_client {
                 );
             self.inner.unary(req, path, codec).await
         }
+        #[deprecated]
         pub async fn disable_tracing_policy(
             &mut self,
             request: impl tonic::IntoRequest<super::DisableTracingPolicyRequest>,
@@ -2053,6 +2912,7 @@ pub mod fine_guidance_sensors_client {
                 );
             self.inner.unary(req, path, codec).await
         }
+        #[deprecated]
         pub async fn list_sensors(
             &mut self,
             request: impl tonic::IntoRequest<super::ListSensorsRequest>,
@@ -2077,6 +2937,7 @@ pub mod fine_guidance_sensors_client {
                 .insert(GrpcMethod::new("tetragon.FineGuidanceSensors", "ListSensors"));
             self.inner.unary(req, path, codec).await
         }
+        #[deprecated]
         pub async fn enable_sensor(
             &mut self,
             request: impl tonic::IntoRequest<super::EnableSensorRequest>,
@@ -2101,6 +2962,7 @@ pub mod fine_guidance_sensors_client {
                 .insert(GrpcMethod::new("tetragon.FineGuidanceSensors", "EnableSensor"));
             self.inner.unary(req, path, codec).await
         }
+        #[deprecated]
         pub async fn disable_sensor(
             &mut self,
             request: impl tonic::IntoRequest<super::DisableSensorRequest>,
@@ -2125,6 +2987,31 @@ pub mod fine_guidance_sensors_client {
                 .insert(
                     GrpcMethod::new("tetragon.FineGuidanceSensors", "DisableSensor"),
                 );
+            self.inner.unary(req, path, codec).await
+        }
+        #[deprecated]
+        pub async fn remove_sensor(
+            &mut self,
+            request: impl tonic::IntoRequest<super::RemoveSensorRequest>,
+        ) -> std::result::Result<
+            tonic::Response<super::RemoveSensorResponse>,
+            tonic::Status,
+        > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::unknown(
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/tetragon.FineGuidanceSensors/RemoveSensor",
+            );
+            let mut req = request.into_request();
+            req.extensions_mut()
+                .insert(GrpcMethod::new("tetragon.FineGuidanceSensors", "RemoveSensor"));
             self.inner.unary(req, path, codec).await
         }
         pub async fn get_stack_trace_tree(
@@ -2199,6 +3086,54 @@ pub mod fine_guidance_sensors_client {
             let mut req = request.into_request();
             req.extensions_mut()
                 .insert(GrpcMethod::new("tetragon.FineGuidanceSensors", "RuntimeHook"));
+            self.inner.unary(req, path, codec).await
+        }
+        pub async fn get_debug(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetDebugRequest>,
+        ) -> std::result::Result<
+            tonic::Response<super::GetDebugResponse>,
+            tonic::Status,
+        > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::unknown(
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/tetragon.FineGuidanceSensors/GetDebug",
+            );
+            let mut req = request.into_request();
+            req.extensions_mut()
+                .insert(GrpcMethod::new("tetragon.FineGuidanceSensors", "GetDebug"));
+            self.inner.unary(req, path, codec).await
+        }
+        pub async fn set_debug(
+            &mut self,
+            request: impl tonic::IntoRequest<super::SetDebugRequest>,
+        ) -> std::result::Result<
+            tonic::Response<super::SetDebugResponse>,
+            tonic::Status,
+        > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::unknown(
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/tetragon.FineGuidanceSensors/SetDebug",
+            );
+            let mut req = request.into_request();
+            req.extensions_mut()
+                .insert(GrpcMethod::new("tetragon.FineGuidanceSensors", "SetDebug"));
             self.inner.unary(req, path, codec).await
         }
     }
