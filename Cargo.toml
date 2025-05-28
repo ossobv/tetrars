@@ -1,0 +1,22 @@
+[package]
+name = "tetrars"
+version = "0.1.0"
+edition = "2024"
+description = "OSSO specific cilium tetragon client for one specific use-case"
+readme = "README.rst"
+repository = "https://github.com/ossobv/tetrars"
+license = "GPL-3.0-or-later"
+build = false  # "build.rs" # set to build.rs to rebuild tetragon.rs
+
+[dependencies]
+chrono = "0"
+hyper-util = "0"
+prost = "0"
+prost-types = "0"
+serde_json = "1"
+tokio = { version = "1", features = ["full"] }
+tonic = "0"
+tower = "0"
+
+[build-dependencies]
+tonic-build = "0"
