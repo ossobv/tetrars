@@ -93,3 +93,29 @@ Non-scientific test::
 
 This shows that the demo version of *tetrars* used 8-9x less memory and
 up to 4x less cpu.
+
+
+---------------
+Integrated SBOM
+---------------
+
+The built binary (if built using ``cargo auditable build``) includes a
+*Software Bill of Materials* (SBOM):
+
+.. code-block:: console
+
+    $ objcopy --dump-section .dep-v0=/dev/stdout target/release/tetrars |
+        python3 -c 'import zlib,sys;print(zlib.decompress(sys.stdin.buffer.read()).decode("utf-8"))' |
+        jq .
+    {
+      "packages": [
+        {
+          "name": "aho-corasick",
+          "version": "1.1.3",
+          "source": "crates.io",
+          "kind": "build",
+          "dependencies": [
+            44
+          ]
+        },
+    ...
