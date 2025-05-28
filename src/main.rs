@@ -152,9 +152,27 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 }}}}, \"node_name\":{node_name}, \"time\":{time}}}");
                         }
                     },
-                    (maybe_process, maybe_parent) => {
+                    (Some(process), None) => {
+                        //let auid: i64 = process.auid.map(|x| x as i64).unwrap_or(-1);
+                        let auid = process.auid.unwrap_or(NULL_UID);
+                        if (1000..=9999).contains(&auid) {
+                            let pid = process.pid.unwrap_or(NULL_PID);
+                            let uid = process.uid.unwrap_or(NULL_UID);
+                            let cwd = to_js_string(process.cwd);
+                            let binary = to_js_string(process.binary);
+                            let arguments = to_js_string(process.arguments);
+                            let node_name = to_js_string(event.node_name);
+                            let time = to_js_timestamp(&event.time.unwrap_or(NULL_TIMESTAMP));
+                            println!("\
+{{\"process_exec\":{{\"process\":{{\
+\"pid\":{pid}, \"uid\":{uid}, \"cwd\":{cwd}, \"binary\":{binary}, \
+\"arguments\":{arguments}, \"auid\":{auid}\
+}}}}, \"node_name\":{node_name}, \"time\":{time}}}");
+                        }
+                    },
+                    (None, maybe_parent) => {
                         eprintln!("\
-UNHANDLED: no process or no parent? {maybe_process:#?} / {maybe_parent:#?}");
+UNHANDLED: no process but parent? None / {maybe_parent:#?}");
                     }
 
                 }
