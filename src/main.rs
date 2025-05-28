@@ -18,6 +18,8 @@ use cilium::api::v2::tetragon::{
     FieldFilterAction,
 };
 
+const GIT_VERSION: &str = git_version::git_version!();
+
 const TETRAGON_ADDR: &str = "/run/tetragon/tetragon.sock";
 
 const NULL_PID: u32 = u32::MAX;
@@ -27,6 +29,8 @@ const NULL_TIMESTAMP: Timestamp = Timestamp{ seconds: 0, nanos: 0 };
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    eprintln!("tetrars {GIT_VERSION} started");
+
     let channel = Endpoint::try_from("http://[::]:50051")?
         .connect_with_connector(service_fn(|_: Uri| async {
             let path = TETRAGON_ADDR;

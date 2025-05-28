@@ -10,6 +10,7 @@ build = false  # "build.rs" # set to build.rs to rebuild tetragon.rs
 
 [dependencies]
 chrono = "0"
+git-version = "0"
 hyper-util = "0"
 prost = "0"
 prost-types = "0"

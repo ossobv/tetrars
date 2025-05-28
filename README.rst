@@ -95,9 +95,17 @@ This shows that the demo version of *tetrars* used 8-9x less memory and
 up to 4x less cpu.
 
 
----------------
-Integrated SBOM
----------------
+-----------------------
+Binary version and SBOM
+-----------------------
+
+The ``git describe`` version is stored and shown on startup:
+
+.. code-block:: console
+
+    $ ./target/release/tetrars
+    tetrars v0.1.0 started
+    ...
 
 The built binary (if built using ``cargo auditable build``) includes a
 *Software Bill of Materials* (SBOM):
