@@ -747,6 +747,9 @@ pub struct Pod {
     /// Name of the Pod.
     #[prost(string, tag = "2")]
     pub name: ::prost::alloc::string::String,
+    /// UID of the Pod.
+    #[prost(string, tag = "3")]
+    pub uid: ::prost::alloc::string::String,
     /// Container of the Pod from which the process that triggered the event
     /// originates.
     #[prost(message, optional, tag = "4")]
@@ -1241,6 +1244,15 @@ pub struct KprobeBpfAttr {
     pub prog_name: ::prost::alloc::string::String,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
+pub struct KprobeBpfProg {
+    #[prost(string, tag = "1")]
+    pub prog_type: ::prost::alloc::string::String,
+    #[prost(uint32, tag = "2")]
+    pub insn_cnt: u32,
+    #[prost(string, tag = "3")]
+    pub prog_name: ::prost::alloc::string::String,
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
 pub struct KprobePerfEvent {
     #[prost(string, tag = "1")]
     pub kprobe_func: ::prost::alloc::string::String,
@@ -1277,7 +1289,7 @@ pub struct KprobeArgument {
     pub label: ::prost::alloc::string::String,
     #[prost(
         oneof = "kprobe_argument::Arg",
-        tags = "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30"
+        tags = "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31"
     )]
     pub arg: ::core::option::Option<kprobe_argument::Arg>,
 }
@@ -1347,6 +1359,8 @@ pub mod kprobe_argument {
         SyscallId(super::SyscallId),
         #[prost(message, tag = "30")]
         SockaddrArg(super::KprobeSockaddr),
+        #[prost(message, tag = "31")]
+        BpfProgArg(super::KprobeBpfProg),
     }
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1390,6 +1404,9 @@ pub struct ProcessKprobe {
     /// Ancestors of the process beyond the immediate parent.
     #[prost(message, repeated, tag = "13")]
     pub ancestors: ::prost::alloc::vec::Vec<Process>,
+    /// Data definition of the observed kprobe.
+    #[prost(message, repeated, tag = "14")]
+    pub data: ::prost::alloc::vec::Vec<KprobeArgument>,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ProcessTracepoint {
@@ -1456,6 +1473,44 @@ pub struct ProcessUprobe {
     /// uprobe ref_ctr_offset
     #[prost(uint64, tag = "11")]
     pub ref_ctr_offset: u64,
+    /// Action performed when the uprobe hook matched.
+    #[prost(enumeration = "KprobeAction", tag = "12")]
+    pub action: i32,
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ProcessUsdt {
+    #[prost(message, optional, tag = "1")]
+    pub process: ::core::option::Option<Process>,
+    #[prost(message, optional, tag = "2")]
+    pub parent: ::core::option::Option<Process>,
+    #[prost(string, tag = "3")]
+    pub path: ::prost::alloc::string::String,
+    #[prost(string, tag = "4")]
+    pub provider: ::prost::alloc::string::String,
+    #[prost(string, tag = "5")]
+    pub name: ::prost::alloc::string::String,
+    /// Name of the policy that created that uprobe.
+    #[prost(string, tag = "6")]
+    pub policy_name: ::prost::alloc::string::String,
+    /// Short message of the Tracing Policy to inform users what is going on.
+    #[prost(string, tag = "7")]
+    pub message: ::prost::alloc::string::String,
+    /// Arguments definition of the observed uprobe.
+    #[prost(message, repeated, tag = "8")]
+    pub args: ::prost::alloc::vec::Vec<KprobeArgument>,
+    /// Tags of the Tracing Policy to categorize the event.
+    #[prost(string, repeated, tag = "9")]
+    pub tags: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Ancestors of the process beyond the immediate parent.
+    #[prost(message, repeated, tag = "10")]
+    pub ancestors: ::prost::alloc::vec::Vec<Process>,
+    /// Action performed when the USDT hook matched.
+    #[prost(enumeration = "KprobeAction", tag = "11")]
+    pub action: i32,
+    /// Flags are for debugging purposes only and should not be considered a
+    /// reliable source of information.
+    #[prost(string, tag = "12")]
+    pub flags: ::prost::alloc::string::String,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ProcessLsm {
@@ -1650,6 +1705,8 @@ pub enum KprobeAction {
     Notifyenforcer = 13,
     /// CleanupEnforcerNotification action cleanups any state left by NotifyEnforcer
     Cleanupenforcernotification = 14,
+    /// Set action sets first USDT argument
+    Set = 15,
 }
 impl KprobeAction {
     /// String value of the enum field names used in the ProtoBuf definition.
@@ -1675,6 +1732,7 @@ impl KprobeAction {
             Self::Cleanupenforcernotification => {
                 "KPROBE_ACTION_CLEANUPENFORCERNOTIFICATION"
             }
+            Self::Set => "KPROBE_ACTION_SET",
         }
     }
     /// Creates an enum from field names used in the ProtoBuf definition.
@@ -1697,6 +1755,7 @@ impl KprobeAction {
             "KPROBE_ACTION_CLEANUPENFORCERNOTIFICATION" => {
                 Some(Self::Cleanupenforcernotification)
             }
+            "KPROBE_ACTION_SET" => Some(Self::Set),
             _ => None,
         }
     }
@@ -1877,6 +1936,10 @@ pub struct Filter {
     /// Filter ancestor processes' binaries using RE2 regular expression syntax.
     #[prost(string, repeated, tag = "17")]
     pub ancestor_binary_regex: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Filter by the container name in the process.pod.container field using RE2 regular expression syntax:
+    /// <https://github.com/google/re2/wiki/Syntax>
+    #[prost(string, repeated, tag = "18")]
+    pub container_name_regex: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 /// Filter over a set of Linux process capabilities. See `message Capabilities`
 /// for more info.  WARNING: Multiple sets are ANDed. For example, if the
@@ -2025,7 +2088,7 @@ pub struct GetEventsResponse {
     /// NOTE: Numbers must stay in sync with enum EventType.
     #[prost(
         oneof = "get_events_response::Event",
-        tags = "1, 5, 9, 10, 11, 12, 27, 28, 40000, 40001"
+        tags = "1, 5, 9, 10, 11, 12, 27, 28, 29, 40000, 40001"
     )]
     pub event: ::core::option::Option<get_events_response::Event>,
 }
@@ -2059,6 +2122,8 @@ pub mod get_events_response {
         ProcessThrottle(super::ProcessThrottle),
         #[prost(message, tag = "28")]
         ProcessLsm(super::ProcessLsm),
+        #[prost(message, tag = "29")]
+        ProcessUsdt(super::ProcessUsdt),
         #[prost(message, tag = "40000")]
         Test(super::Test),
         #[prost(message, tag = "40001")]
@@ -2081,6 +2146,7 @@ pub enum EventType {
     ProcessUprobe = 12,
     ProcessThrottle = 27,
     ProcessLsm = 28,
+    ProcessUsdt = 29,
     Test = 40000,
     RateLimitInfo = 40001,
 }
@@ -2100,6 +2166,7 @@ impl EventType {
             Self::ProcessUprobe => "PROCESS_UPROBE",
             Self::ProcessThrottle => "PROCESS_THROTTLE",
             Self::ProcessLsm => "PROCESS_LSM",
+            Self::ProcessUsdt => "PROCESS_USDT",
             Self::Test => "TEST",
             Self::RateLimitInfo => "RATE_LIMIT_INFO",
         }
@@ -2116,6 +2183,7 @@ impl EventType {
             "PROCESS_UPROBE" => Some(Self::ProcessUprobe),
             "PROCESS_THROTTLE" => Some(Self::ProcessThrottle),
             "PROCESS_LSM" => Some(Self::ProcessLsm),
+            "PROCESS_USDT" => Some(Self::ProcessUsdt),
             "TEST" => Some(Self::Test),
             "RATE_LIMIT_INFO" => Some(Self::RateLimitInfo),
             _ => None,
@@ -2229,6 +2297,35 @@ pub struct ListSensorsResponse {
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct ListTracingPoliciesRequest {}
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct TracingPolicyActionCounters {
+    /// number of post events generated from the policy
+    #[prost(uint64, tag = "1")]
+    pub post: u64,
+    /// number of signals sent from the policy
+    #[prost(uint64, tag = "2")]
+    pub signal: u64,
+    /// number of signals that were not sent because the policy was in monitor mode
+    #[prost(uint64, tag = "3")]
+    pub monitor_signal: u64,
+    /// number of return overrides
+    #[prost(uint64, tag = "4")]
+    pub r#override: u64,
+    /// number of return overrides that did not occur because the policy was in monitor mode
+    #[prost(uint64, tag = "5")]
+    pub monitor_override: u64,
+    /// number of enforcer notifications triggered from the policy
+    #[prost(uint64, tag = "6")]
+    pub notify_enforcer: u64,
+    /// number of enforcer notifications that did not occur because the policy was in monitor mode
+    #[prost(uint64, tag = "7")]
+    pub monitor_notify_enforcer: u64,
+}
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct TracingPolicyStats {
+    #[prost(message, optional, tag = "1")]
+    pub action_counters: ::core::option::Option<TracingPolicyActionCounters>,
+}
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct TracingPolicyStatus {
     /// id is the id of the policy
@@ -2265,6 +2362,9 @@ pub struct TracingPolicyStatus {
     /// current mode of the tracing policy
     #[prost(enumeration = "TracingPolicyMode", tag = "11")]
     pub mode: i32,
+    /// stats of the tracing policy
+    #[prost(message, optional, tag = "12")]
+    pub stats: ::core::option::Option<TracingPolicyStats>,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListTracingPoliciesResponse {
