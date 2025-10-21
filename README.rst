@@ -104,7 +104,7 @@ The ``git describe`` version is stored and shown on startup:
 .. code-block:: console
 
     $ ./target/release/tetrars
-    tetrars v0.1.1 started
+    tetrars v0.1.2 started
     ...
 
 The built binary (if built using ``cargo auditable build``) includes a

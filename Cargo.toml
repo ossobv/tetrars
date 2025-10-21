@@ -1,6 +1,6 @@
 [package]
 name = "tetrars"
-version = "0.1.1"
+version = "0.1.2"
 edition = "2024"
 description = "OSSO specific cilium tetragon client for one specific use-case"
 readme = "README.rst"
