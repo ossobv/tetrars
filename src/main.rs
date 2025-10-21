@@ -92,6 +92,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                         //   flags: "execve rootcwd clone",
                         //   flags: "procFS",
                         //   flags: "procFS auid rootcwd",
+                        "process.flags".to_string(),
                         "parent.pid".to_string(),
                         "parent.auid".to_string(),
                         "parent.uid".to_string(),
@@ -135,7 +136,18 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                             let uid = process.uid.unwrap_or(NULL_UID);
                             let cwd = to_js_string(process.cwd);
                             let binary = to_js_string(process.binary);
-                            let arguments = to_js_string(process.arguments);
+
+                            let flags = process.flags; // "execve rootcwd clone"
+
+                            let mut arguments = process.arguments;
+                            if flags.contains("trunc") {
+                                eprintln!("WARN: flags with truncation: {flags}");
+                                if flags.contains("truncArgs") {
+                                    arguments = "ERROR_flags_truncArgs\"".to_string()
+                                }
+                            };
+                            arguments = to_js_string(ensure_within::<40_000>(&arguments));
+
                             let ppid = parent.pid.unwrap_or(NULL_PID);
                             let puid = parent.uid.unwrap_or(NULL_UID);
                             let pcwd = to_js_string(parent.cwd);
@@ -196,4 +208,25 @@ fn to_js_string<S: AsRef<str>>(s: S) -> String {
 fn to_js_timestamp(ts: &Timestamp) -> String {
     let dt = DateTime::from_timestamp(ts.seconds, 0).unwrap();
     format!("\"{}.{:09}Z\"", dt.format("%Y-%m-%dT%H:%M:%S"), ts.nanos)
+}
+
+/// Usage: let s = ensure_within::<255>(possibly_long_string)
+/// TODO: This truncates to characters, but likely the buffer limit is
+/// in bytes, not characters. That would mean that we would end up with
+/// issues if the arguments are non-ascii UTF-8.
+/// NOTE: Right now, the buffer we're facing is JOURNALD_LINEMAX, which
+/// is 48 * 1024 = 49152. By trimming the largest message to 40_000 we
+/// have plenty of room to spare.
+fn ensure_within<const N: usize>(s: &str) -> String {
+    const TRUNC_MSG: &str = "[...truncated]";
+
+    if s.len() > N {
+        eprintln!("WARN: input of length {} truncated to {}", s.len(), N);
+        let truncated_len = N.saturating_sub(TRUNC_MSG.len());
+        let mut out = s[..truncated_len].to_string();
+        out.push_str(TRUNC_MSG);
+        out
+    } else {
+        s.to_string()
+    }
 }
