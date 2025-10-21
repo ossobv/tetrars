@@ -1,7 +1,7 @@
 fn main() {
     // Build src/cilium/tetragon.rs based on the protobuf files in
     // "../../src/tetragon/api".
-    tonic_build::configure()
+    tonic_prost_build::configure()
         .build_client(true)
         .build_server(false)
         // Call output directory Cilium because it's a Cilium API and we

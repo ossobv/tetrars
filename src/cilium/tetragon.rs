@@ -2,17 +2,17 @@
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
 pub enum CapabilitiesType {
-    /// In a system with the \[_POSIX_CHOWN_RESTRICTED\] option defined, this
+    /// In a system with the \[\_POSIX_CHOWN_RESTRICTED\] option defined, this
     /// overrides the restriction of changing file ownership and group
     /// ownership.
     CapChown = 0,
     /// Override all DAC access, including ACL execute access if
-    /// \[_POSIX_ACL\] is defined. Excluding DAC access covered by
+    /// \[\_POSIX_ACL\] is defined. Excluding DAC access covered by
     /// CAP_LINUX_IMMUTABLE.
     DacOverride = 1,
     /// Overrides all DAC restrictions regarding read and search on files
-    /// and directories, including ACL restrictions if \[_POSIX_ACL\] is
-    /// defined. Excluding DAC access covered by "$1"_LINUX_IMMUTABLE.
+    /// and directories, including ACL restrictions if \[\_POSIX_ACL\] is
+    /// defined. Excluding DAC access covered by "$1"\_LINUX_IMMUTABLE.
     CapDacReadSearch = 2,
     /// Overrides all restrictions about allowed operations on files, where
     /// file owner ID must be equal to the user ID, except where CAP_FSETID
@@ -34,13 +34,13 @@ pub enum CapabilitiesType {
     /// Allows forged pids on socket credentials passing.
     CapSetuid = 7,
     /// Without VFS support for capabilities:
-    ///    Transfer any capability in your permitted set to any pid,
-    ///    remove any capability in your permitted set from any pid
+    /// Transfer any capability in your permitted set to any pid,
+    /// remove any capability in your permitted set from any pid
     /// With VFS support for capabilities (neither of above, but)
-    ///    Add any capability from current's capability bounding set
-    ///        to the current process' inheritable set
-    ///    Allow taking bits out of capability bounding set
-    ///    Allow modification of the securebits for a process
+    /// Add any capability from current's capability bounding set
+    /// to the current process' inheritable set
+    /// Allow taking bits out of capability bounding set
+    /// Allow modification of the securebits for a process
     CapSetpcap = 8,
     /// Allow modification of S_IMMUTABLE and S_APPEND file attributes
     CapLinuxImmutable = 9,
@@ -110,34 +110,33 @@ pub enum CapabilitiesType {
     CapBlockSuspend = 36,
     /// Allow reading the audit log via multicast netlink socket
     CapAuditRead = 37,
-    ///
     /// Allow system performance and observability privileged operations
     /// using perf_events, i915_perf and other kernel subsystems
     CapPerfmon = 38,
-    ///
     /// CAP_BPF allows the following BPF operations:
-    /// - Creating all types of BPF maps
-    /// - Advanced verifier features
-    ///    - Indirect variable access
-    ///    - Bounded loops
-    ///    - BPF to BPF function calls
-    ///    - Scalar precision tracking
-    ///    - Larger complexity limits
-    ///    - Dead code elimination
-    ///    - And potentially other features
-    /// - Loading BPF Type Format (BTF) data
-    /// - Retrieve xlated and JITed code of BPF programs
-    /// - Use bpf_spin_lock() helper
-    /// CAP_PERFMON relaxes the verifier checks further:
-    /// - BPF progs can use of pointer-to-integer conversions
-    /// - speculation attack hardening measures are bypassed
-    /// - bpf_probe_read to read arbitrary kernel memory is allowed
-    /// - bpf_trace_printk to print kernel memory is allowed
-    /// CAP_SYS_ADMIN is required to use bpf_probe_write_user.
-    /// CAP_SYS_ADMIN is required to iterate system wide loaded
-    /// programs, maps, links, BTFs and convert their IDs to file descriptors.
-    /// CAP_PERFMON and CAP_BPF are required to load tracing programs.
-    /// CAP_NET_ADMIN and CAP_BPF are required to load networking programs.
+    ///
+    /// * Creating all types of BPF maps
+    /// * Advanced verifier features
+    ///   * Indirect variable access
+    ///   * Bounded loops
+    ///   * BPF to BPF function calls
+    ///   * Scalar precision tracking
+    ///   * Larger complexity limits
+    ///   * Dead code elimination
+    ///   * And potentially other features
+    /// * Loading BPF Type Format (BTF) data
+    /// * Retrieve xlated and JITed code of BPF programs
+    /// * Use bpf_spin_lock() helper
+    ///   CAP_PERFMON relaxes the verifier checks further:
+    /// * BPF progs can use of pointer-to-integer conversions
+    /// * speculation attack hardening measures are bypassed
+    /// * bpf_probe_read to read arbitrary kernel memory is allowed
+    /// * bpf_trace_printk to print kernel memory is allowed
+    ///   CAP_SYS_ADMIN is required to use bpf_probe_write_user.
+    ///   CAP_SYS_ADMIN is required to iterate system wide loaded
+    ///   programs, maps, links, BTFs and convert their IDs to file descriptors.
+    ///   CAP_PERFMON and CAP_BPF are required to load tracing programs.
+    ///   CAP_NET_ADMIN and CAP_BPF are required to load networking programs.
     CapBpf = 39,
     /// Allow writing to ns_last_pid
     CapCheckpointRestore = 40,
@@ -255,7 +254,7 @@ pub enum SecureBitsType {
     SecBitNoRootLocked = 2,
     /// When set, setuid to/from uid 0 does not trigger capability-"fixup".
     /// When unset, to provide compatiblility with old programs relying on
-    /// set*uid to gain/lose privilege, transitions to/from uid 0 cause
+    /// set\*uid to gain/lose privilege, transitions to/from uid 0 cause
     /// capabilities to be gained/lost.
     SecBitNoSetUidFixup = 4,
     /// Make bit-2 SecBitNoSetUidFixup immutable
@@ -694,7 +693,7 @@ impl BpfProgramType {
         }
     }
 }
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct Image {
     /// Identifier of the container image composed of the registry path and the
     /// sha256.
@@ -704,13 +703,13 @@ pub struct Image {
     #[prost(string, tag = "2")]
     pub name: ::prost::alloc::string::String,
 }
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct SecurityContext {
     /// True if this container is priviledged.
     #[prost(bool, tag = "1")]
     pub privileged: bool,
 }
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct Container {
     /// Identifier of the container.
     #[prost(string, tag = "1")]
@@ -729,10 +728,11 @@ pub struct Container {
     pub pid: ::core::option::Option<u32>,
     /// If this is set true, it means that the process might have been originated from
     /// a Kubernetes exec probe. For this field to be true, the following must be true:
+    ///
     /// 1. The binary field matches the first element of the exec command list for either
-    ///     liveness or readiness probe excluding the basename. For example, "/bin/ls"
-    ///     and "ls" are considered a match.
-    /// 2. The arguments field exactly matches the rest of the exec command list.
+    ///    liveness or readiness probe excluding the basename. For example, "/bin/ls"
+    ///    and "ls" are considered a match.
+    /// 1. The arguments field exactly matches the rest of the exec command list.
     #[prost(bool, tag = "13")]
     pub maybe_exec_probe: bool,
     /// The security context of the container
@@ -773,7 +773,7 @@ pub struct Pod {
         ::prost::alloc::string::String,
     >,
 }
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct Capabilities {
     /// Permitted set indicates what capabilities the process can use. This is a
     /// limiting superset for the effective capabilities that the thread may
@@ -792,7 +792,7 @@ pub struct Capabilities {
     #[prost(enumeration = "CapabilitiesType", repeated, tag = "3")]
     pub inheritable: ::prost::alloc::vec::Vec<i32>,
 }
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct Namespace {
     /// Inode number of the namespace.
     #[prost(uint32, tag = "1")]
@@ -801,7 +801,7 @@ pub struct Namespace {
     #[prost(bool, tag = "2")]
     pub is_host: bool,
 }
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct Namespaces {
     /// Hostname and NIS domain name.
     #[prost(message, optional, tag = "1")]
@@ -834,7 +834,7 @@ pub struct Namespaces {
     #[prost(message, optional, tag = "10")]
     pub user: ::core::option::Option<Namespace>,
 }
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct UserNamespace {
     /// Nested level of the user namespace. Init or host user namespace is at level 0.
     #[prost(message, optional, tag = "1")]
@@ -849,7 +849,7 @@ pub struct UserNamespace {
     #[prost(message, optional, tag = "4")]
     pub ns: ::core::option::Option<Namespace>,
 }
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct ProcessCredentials {
     /// The real user ID of the process' owner.
     #[prost(message, optional, tag = "1")]
@@ -885,7 +885,7 @@ pub struct ProcessCredentials {
     #[prost(message, optional, tag = "11")]
     pub user_ns: ::core::option::Option<UserNamespace>,
 }
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct InodeProperties {
     /// The inode number
     #[prost(uint64, tag = "1")]
@@ -894,7 +894,7 @@ pub struct InodeProperties {
     #[prost(message, optional, tag = "2")]
     pub links: ::core::option::Option<u32>,
 }
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct FileProperties {
     /// Inode of the file
     #[prost(message, optional, tag = "1")]
@@ -903,7 +903,7 @@ pub struct FileProperties {
     #[prost(string, tag = "2")]
     pub path: ::prost::alloc::string::String,
 }
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct BinaryProperties {
     /// If set then this is the set user ID used for execution
     #[prost(message, optional, tag = "1")]
@@ -917,14 +917,15 @@ pub struct BinaryProperties {
     #[prost(enumeration = "ProcessPrivilegesChanged", repeated, tag = "3")]
     pub privileges_changed: ::prost::alloc::vec::Vec<i32>,
     /// File properties in case the executed binary is:
+    ///
     /// 1. An anonymous shared memory file <https://man7.org/linux/man-pages/man7/shm_overview.7.html.>
-    /// 2. An anonymous file obtained with memfd API <https://man7.org/linux/man-pages/man2/memfd_create.2.html.>
-    /// 3. Or it was deleted from the file system.
+    /// 1. An anonymous file obtained with memfd API <https://man7.org/linux/man-pages/man2/memfd_create.2.html.>
+    /// 1. Or it was deleted from the file system.
     #[prost(message, optional, tag = "4")]
     pub file: ::core::option::Option<FileProperties>,
 }
 /// User records
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct UserRecord {
     /// The UNIX username for this record. Corresponds to `pw_name` field of [struct passwd](<https://man7.org/linux/man-pages/man3/getpwnam.3.html>)
     /// and the `sp_namp` field of [struct spwd](<https://man7.org/linux/man-pages/man3/getspnam.3.html>).
@@ -957,58 +958,59 @@ pub struct Process {
     /// reliable source of information. They hold various information about
     /// which syscalls generated events, use of internal Tetragon buffers,
     /// errors and more.
-    /// - `execve` This event is generated by an execve syscall for a new
-    /// process. See procFs for the other option. A correctly formatted event
-    /// should either set execve or procFS (described next).
-    /// - `procFS` This event is generated from a proc interface. This happens
-    /// at Tetragon init when existing processes are being loaded into Tetragon
-    /// event buffer. All events should have either execve or procFS set.
-    /// - `truncFilename` Indicates a truncated processes filename because the
-    /// buffer size is too small to contain the process filename. Consider
-    /// increasing buffer size to avoid this.
-    /// - `truncArgs` Indicates truncated the processes arguments because the
-    /// buffer size was too small to contain all exec args. Consider increasing
-    /// buffer size to avoid this.
-    /// - `taskWalk` Primarily useful for debugging. Indicates a walked process
-    /// hierarchy to find a parent process in the Tetragon buffer. This may
-    /// happen when we did not receive an exec event for the immediate parent of
-    /// a process. Typically means we are looking at a fork that in turn did
-    /// another fork we don't currently track fork events exactly and instead
-    /// push an event with the original parent exec data. This flag can provide
-    /// this insight into the event if needed.
-    /// - `miss` An error flag indicating we could not find parent info in the
-    /// Tetragon event buffer. If this is set it should be reported to Tetragon
-    /// developers for debugging. Tetragon will do its best to recover
-    /// information about the process from available kernel data structures
-    /// instead of using cached info in this case. However, args will not be
-    /// available.
-    /// - `needsAUID` An internal flag for Tetragon to indicate the audit has
-    /// not yet been resolved. The BPF hooks look at this flag to determine if
-    /// probing the audit system is necessary.
-    /// - `errorFilename` An error flag indicating an error happened while
-    /// reading the filename. If this is set it should be reported to Tetragon
-    /// developers for debugging.
-    /// - `errorArgs` An error flag indicating an error happened while reading
-    /// the process args. If this is set it should be reported to Tetragon
-    /// developers for debugging
-    /// - `needsCWD` An internal flag for Tetragon to indicate the current
-    /// working directory has not yet been resolved. The Tetragon hooks look at
-    /// this flag to determine if probing the CWD is necessary.
-    /// - `noCWDSupport` Indicates that CWD is removed from the event because
-    /// the buffer size is too small. Consider increasing buffer size to avoid
-    /// this.
-    /// - `rootCWD` Indicates that CWD is the root directory. This is necessary
-    /// to inform readers the CWD is not in the event buffer and is '/' instead.
-    /// - `errorCWD` An error flag indicating an error occurred while reading
-    /// the CWD of a process. If this is set it should be reported to Tetragon
-    /// developers for debugging.
-    /// - `clone` Indicates the process issued a clone before exec*. This is the
-    /// general flow to exec* a new process, however its possible to replace the
-    /// current process with a new process by doing an exec* without a clone. In
-    /// this case the flag will be omitted and the same PID will be used by the
-    /// kernel for both the old process and the newly exec'd process.
-    /// - `unknown` Indicates the process was not found in the process cache
-    /// and contains just pid and start time.
+    ///
+    /// * `execve` This event is generated by an execve syscall for a new
+    ///   process. See procFs for the other option. A correctly formatted event
+    ///   should either set execve or procFS (described next).
+    /// * `procFS` This event is generated from a proc interface. This happens
+    ///   at Tetragon init when existing processes are being loaded into Tetragon
+    ///   event buffer. All events should have either execve or procFS set.
+    /// * `truncFilename` Indicates a truncated processes filename because the
+    ///   buffer size is too small to contain the process filename. Consider
+    ///   increasing buffer size to avoid this.
+    /// * `truncArgs` Indicates truncated the processes arguments because the
+    ///   buffer size was too small to contain all exec args. Consider increasing
+    ///   buffer size to avoid this.
+    /// * `taskWalk` Primarily useful for debugging. Indicates a walked process
+    ///   hierarchy to find a parent process in the Tetragon buffer. This may
+    ///   happen when we did not receive an exec event for the immediate parent of
+    ///   a process. Typically means we are looking at a fork that in turn did
+    ///   another fork we don't currently track fork events exactly and instead
+    ///   push an event with the original parent exec data. This flag can provide
+    ///   this insight into the event if needed.
+    /// * `miss` An error flag indicating we could not find parent info in the
+    ///   Tetragon event buffer. If this is set it should be reported to Tetragon
+    ///   developers for debugging. Tetragon will do its best to recover
+    ///   information about the process from available kernel data structures
+    ///   instead of using cached info in this case. However, args will not be
+    ///   available.
+    /// * `needsAUID` An internal flag for Tetragon to indicate the audit has
+    ///   not yet been resolved. The BPF hooks look at this flag to determine if
+    ///   probing the audit system is necessary.
+    /// * `errorFilename` An error flag indicating an error happened while
+    ///   reading the filename. If this is set it should be reported to Tetragon
+    ///   developers for debugging.
+    /// * `errorArgs` An error flag indicating an error happened while reading
+    ///   the process args. If this is set it should be reported to Tetragon
+    ///   developers for debugging
+    /// * `needsCWD` An internal flag for Tetragon to indicate the current
+    ///   working directory has not yet been resolved. The Tetragon hooks look at
+    ///   this flag to determine if probing the CWD is necessary.
+    /// * `noCWDSupport` Indicates that CWD is removed from the event because
+    ///   the buffer size is too small. Consider increasing buffer size to avoid
+    ///   this.
+    /// * `rootCWD` Indicates that CWD is the root directory. This is necessary
+    ///   to inform readers the CWD is not in the event buffer and is '/' instead.
+    /// * `errorCWD` An error flag indicating an error occurred while reading
+    ///   the CWD of a process. If this is set it should be reported to Tetragon
+    ///   developers for debugging.
+    /// * `clone` Indicates the process issued a clone before exec\*. This is the
+    ///   general flow to exec\* a new process, however its possible to replace the
+    ///   current process with a new process by doing an exec\* without a clone. In
+    ///   this case the flag will be omitted and the same PID will be used by the
+    ///   kernel for both the old process and the newly exec'd process.
+    /// * `unknown` Indicates the process was not found in the process cache
+    ///   and contains just pid and start time.
     #[prost(string, tag = "7")]
     pub flags: ::prost::alloc::string::String,
     /// Start time of the execution.
@@ -1101,7 +1103,7 @@ pub struct ProcessExit {
     #[prost(message, repeated, tag = "6")]
     pub ancestors: ::prost::alloc::vec::Vec<Process>,
 }
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct KprobeSock {
     #[prost(string, tag = "1")]
     pub family: ::prost::alloc::string::String,
@@ -1126,7 +1128,7 @@ pub struct KprobeSock {
     #[prost(string, tag = "11")]
     pub state: ::prost::alloc::string::String,
 }
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct KprobeSkb {
     #[prost(uint32, tag = "1")]
     pub hash: u32,
@@ -1155,7 +1157,7 @@ pub struct KprobeSkb {
     #[prost(string, tag = "13")]
     pub family: ::prost::alloc::string::String,
 }
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct KprobeSockaddr {
     #[prost(string, tag = "1")]
     pub family: ::prost::alloc::string::String,
@@ -1164,12 +1166,12 @@ pub struct KprobeSockaddr {
     #[prost(uint32, tag = "3")]
     pub port: u32,
 }
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct KprobeNetDev {
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
 }
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct KprobePath {
     #[prost(string, tag = "1")]
     pub mount: ::prost::alloc::string::String,
@@ -1180,7 +1182,7 @@ pub struct KprobePath {
     #[prost(string, tag = "4")]
     pub permission: ::prost::alloc::string::String,
 }
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct KprobeFile {
     #[prost(string, tag = "1")]
     pub mount: ::prost::alloc::string::String,
@@ -1191,14 +1193,14 @@ pub struct KprobeFile {
     #[prost(string, tag = "4")]
     pub permission: ::prost::alloc::string::String,
 }
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct KprobeTruncatedBytes {
     #[prost(bytes = "vec", tag = "1")]
     pub bytes_arg: ::prost::alloc::vec::Vec<u8>,
     #[prost(uint64, tag = "2")]
     pub orig_size: u64,
 }
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct KprobeCred {
     #[prost(enumeration = "CapabilitiesType", repeated, tag = "1")]
     pub permitted: ::prost::alloc::vec::Vec<i32>,
@@ -1207,7 +1209,7 @@ pub struct KprobeCred {
     #[prost(enumeration = "CapabilitiesType", repeated, tag = "3")]
     pub inheritable: ::prost::alloc::vec::Vec<i32>,
 }
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct KprobeLinuxBinprm {
     #[prost(string, tag = "1")]
     pub path: ::prost::alloc::string::String,
@@ -1216,14 +1218,14 @@ pub struct KprobeLinuxBinprm {
     #[prost(string, tag = "3")]
     pub permission: ::prost::alloc::string::String,
 }
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct KprobeCapability {
     #[prost(message, optional, tag = "1")]
     pub value: ::core::option::Option<i32>,
     #[prost(string, tag = "2")]
     pub name: ::prost::alloc::string::String,
 }
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct KprobeUserNamespace {
     #[prost(message, optional, tag = "1")]
     pub level: ::core::option::Option<i32>,
@@ -1234,7 +1236,7 @@ pub struct KprobeUserNamespace {
     #[prost(message, optional, tag = "4")]
     pub ns: ::core::option::Option<Namespace>,
 }
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct KprobeBpfAttr {
     #[prost(string, tag = "1")]
     pub prog_type: ::prost::alloc::string::String,
@@ -1243,7 +1245,7 @@ pub struct KprobeBpfAttr {
     #[prost(string, tag = "3")]
     pub prog_name: ::prost::alloc::string::String,
 }
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct KprobeBpfProg {
     #[prost(string, tag = "1")]
     pub prog_type: ::prost::alloc::string::String,
@@ -1252,7 +1254,7 @@ pub struct KprobeBpfProg {
     #[prost(string, tag = "3")]
     pub prog_name: ::prost::alloc::string::String,
 }
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct KprobePerfEvent {
     #[prost(string, tag = "1")]
     pub kprobe_func: ::prost::alloc::string::String,
@@ -1263,7 +1265,7 @@ pub struct KprobePerfEvent {
     #[prost(uint64, tag = "4")]
     pub probe_offset: u64,
 }
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct KprobeBpfMap {
     #[prost(string, tag = "1")]
     pub map_type: ::prost::alloc::string::String,
@@ -1276,14 +1278,14 @@ pub struct KprobeBpfMap {
     #[prost(string, tag = "5")]
     pub map_name: ::prost::alloc::string::String,
 }
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct SyscallId {
     #[prost(uint32, tag = "1")]
     pub id: u32,
     #[prost(string, tag = "2")]
     pub abi: ::prost::alloc::string::String,
 }
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct KprobeArgument {
     #[prost(string, tag = "18")]
     pub label: ::prost::alloc::string::String,
@@ -1295,7 +1297,7 @@ pub struct KprobeArgument {
 }
 /// Nested message and enum types in `KprobeArgument`.
 pub mod kprobe_argument {
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    #[derive(Clone, PartialEq, Eq, Hash, ::prost::Oneof)]
     pub enum Arg {
         #[prost(string, tag = "1")]
         StringArg(::prost::alloc::string::String),
@@ -1543,7 +1545,7 @@ pub struct ProcessLsm {
     #[prost(string, tag = "11")]
     pub ima_hash: ::prost::alloc::string::String,
 }
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct KernelModule {
     /// Kernel module name
     #[prost(string, tag = "1")]
@@ -1556,7 +1558,7 @@ pub struct KernelModule {
     #[prost(enumeration = "TaintedBitsType", repeated, tag = "3")]
     pub tainted: ::prost::alloc::vec::Vec<i32>,
 }
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct Test {
     #[prost(uint64, tag = "1")]
     pub arg0: u64,
@@ -1567,12 +1569,12 @@ pub struct Test {
     #[prost(uint64, tag = "4")]
     pub arg3: u64,
 }
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct GetHealthStatusRequest {
     #[prost(enumeration = "HealthStatusType", repeated, tag = "1")]
     pub event_set: ::prost::alloc::vec::Vec<i32>,
 }
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct HealthStatus {
     #[prost(enumeration = "HealthStatusType", tag = "1")]
     pub event: i32,
@@ -1610,7 +1612,7 @@ pub mod runtime_hook_request {
         CreateContainer(super::CreateContainer),
     }
 }
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct RuntimeHookResponse {}
 /// CreateContainer informs the agent that a container was created
 /// This is intented to be used by OCI hooks (but not limited to them) and corresponds to the
@@ -1656,7 +1658,7 @@ pub struct CreateContainer {
     #[prost(string, tag = "9")]
     pub container_image: ::prost::alloc::string::String,
 }
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct StackTraceEntry {
     /// linear address of the function in kernel or user space.
     #[prost(uint64, tag = "1")]
@@ -1874,7 +1876,7 @@ impl TaintedBitsType {
         }
     }
 }
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct Filter {
     #[prost(string, repeated, tag = "1")]
     pub binary_regex: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
@@ -1945,7 +1947,7 @@ pub struct Filter {
 /// for more info.  WARNING: Multiple sets are ANDed. For example, if the
 /// permitted filter matches, but the effective filter does not, the filter will
 /// NOT match.
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct CapFilter {
     /// Filter over the set of permitted capabilities.
     #[prost(message, optional, tag = "1")]
@@ -1958,7 +1960,7 @@ pub struct CapFilter {
     pub inheritable: ::core::option::Option<CapFilterSet>,
 }
 /// Capability set to filter over. NOTE: you may specify only ONE set here.
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct CapFilterSet {
     /// Match if the capability set contains any of the capabilities defined in this filter.
     #[prost(enumeration = "CapabilitiesType", repeated, tag = "1")]
@@ -1986,7 +1988,7 @@ pub struct RedactionFilter {
     #[prost(string, repeated, tag = "3")]
     pub binary_regex: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct FieldFilter {
     /// Event types to filter or undefined to filter over all event types.
     #[prost(enumeration = "EventType", repeated, tag = "1")]
@@ -2028,7 +2030,7 @@ pub struct GetEventsRequest {
     pub field_filters: ::prost::alloc::vec::Vec<FieldFilter>,
 }
 /// AggregationOptions defines configuration options for aggregating events.
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct AggregationOptions {
     /// Aggregation window size. Defaults to 15 seconds if this field is not set.
     #[prost(message, optional, tag = "1")]
@@ -2040,18 +2042,18 @@ pub struct AggregationOptions {
     pub channel_buffer_size: u64,
 }
 /// AggregationInfo contains information about aggregation results.
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct AggregationInfo {
     /// Total count of events in this aggregation time window.
     #[prost(uint64, tag = "1")]
     pub count: u64,
 }
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct RateLimitInfo {
     #[prost(uint64, tag = "1")]
     pub number_of_dropped_process_events: u64,
 }
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct ProcessThrottle {
     /// Throttle type
     #[prost(enumeration = "ThrottleType", tag = "1")]
@@ -2246,7 +2248,7 @@ impl ThrottleType {
         }
     }
 }
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct StackAddress {
     #[prost(uint64, tag = "1")]
     pub address: u64,
@@ -2258,7 +2260,7 @@ pub struct StackTrace {
     #[prost(message, repeated, tag = "1")]
     pub addresses: ::prost::alloc::vec::Vec<StackAddress>,
 }
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct StackTraceLabel {
     #[prost(string, tag = "1")]
     pub key: ::prost::alloc::string::String,
@@ -2276,9 +2278,9 @@ pub struct StackTraceNode {
     #[prost(message, repeated, tag = "4")]
     pub children: ::prost::alloc::vec::Vec<StackTraceNode>,
 }
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct ListSensorsRequest {}
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct SensorStatus {
     /// name is the name of the sensor
     #[prost(string, tag = "1")]
@@ -2295,9 +2297,9 @@ pub struct ListSensorsResponse {
     #[prost(message, repeated, tag = "1")]
     pub sensors: ::prost::alloc::vec::Vec<SensorStatus>,
 }
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct ListTracingPoliciesRequest {}
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct TracingPolicyActionCounters {
     /// number of post events generated from the policy
     #[prost(uint64, tag = "1")]
@@ -2321,12 +2323,12 @@ pub struct TracingPolicyActionCounters {
     #[prost(uint64, tag = "7")]
     pub monitor_notify_enforcer: u64,
 }
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct TracingPolicyStats {
     #[prost(message, optional, tag = "1")]
     pub action_counters: ::core::option::Option<TracingPolicyActionCounters>,
 }
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct TracingPolicyStatus {
     /// id is the id of the policy
     #[prost(uint64, tag = "1")]
@@ -2371,41 +2373,41 @@ pub struct ListTracingPoliciesResponse {
     #[prost(message, repeated, tag = "1")]
     pub policies: ::prost::alloc::vec::Vec<TracingPolicyStatus>,
 }
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct AddTracingPolicyRequest {
     #[prost(string, tag = "1")]
     pub yaml: ::prost::alloc::string::String,
 }
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct AddTracingPolicyResponse {}
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct DeleteTracingPolicyRequest {
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
     #[prost(string, tag = "2")]
     pub namespace: ::prost::alloc::string::String,
 }
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct DeleteTracingPolicyResponse {}
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct EnableTracingPolicyRequest {
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
     #[prost(string, tag = "2")]
     pub namespace: ::prost::alloc::string::String,
 }
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct EnableTracingPolicyResponse {}
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct DisableTracingPolicyRequest {
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
     #[prost(string, tag = "2")]
     pub namespace: ::prost::alloc::string::String,
 }
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct DisableTracingPolicyResponse {}
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct ConfigureTracingPolicyRequest {
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
@@ -2416,30 +2418,30 @@ pub struct ConfigureTracingPolicyRequest {
     #[prost(enumeration = "TracingPolicyMode", optional, tag = "4")]
     pub mode: ::core::option::Option<i32>,
 }
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct ConfigureTracingPolicyResponse {}
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct RemoveSensorRequest {
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
 }
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct RemoveSensorResponse {}
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct EnableSensorRequest {
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
 }
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct EnableSensorResponse {}
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct DisableSensorRequest {
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
 }
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct DisableSensorResponse {}
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct GetStackTraceTreeRequest {
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
@@ -2449,14 +2451,14 @@ pub struct GetStackTraceTreeResponse {
     #[prost(message, optional, tag = "1")]
     pub root: ::core::option::Option<StackTraceNode>,
 }
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct GetVersionRequest {}
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct GetVersionResponse {
     #[prost(string, tag = "1")]
     pub version: ::prost::alloc::string::String,
 }
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct DumpProcessCacheReqArgs {
     #[prost(bool, tag = "1")]
     pub skip_zero_refcnt: bool,
@@ -2473,12 +2475,13 @@ pub struct ProcessInternal {
     pub refcnt: ::core::option::Option<u32>,
     /// refcnt_ops is a map of operations to refcnt change
     /// keys can be:
-    /// - "process++": process increased refcnt (i.e. this process starts)
-    /// - "process--": process decreased refcnt (i.e. this process exits)
-    /// - "parent++": parent increased refcnt (i.e. a process starts that has this process as a parent)
-    /// - "parent--": parent decreased refcnt (i.e. a process exits that has this process as a parent)
-    /// - "ancestor++": ancestor increased refcnt (i.e. a process starts that has this process as an ancestor)
-    /// - "ancestor--": ancestor decreased refcnt (i.e. a process exits that has this process as an ancestor)
+    ///
+    /// * "process++": process increased refcnt (i.e. this process starts)
+    /// * "process--": process decreased refcnt (i.e. this process exits)
+    /// * "parent++": parent increased refcnt (i.e. a process starts that has this process as a parent)
+    /// * "parent--": parent decreased refcnt (i.e. a process exits that has this process as a parent)
+    /// * "ancestor++": ancestor increased refcnt (i.e. a process starts that has this process as an ancestor)
+    /// * "ancestor--": ancestor decreased refcnt (i.e. a process exits that has this process as an ancestor)
     #[prost(map = "string, int32", tag = "4")]
     pub refcnt_ops: ::std::collections::HashMap<::prost::alloc::string::String, i32>,
 }
@@ -2487,7 +2490,7 @@ pub struct DumpProcessCacheResArgs {
     #[prost(message, repeated, tag = "1")]
     pub processes: ::prost::alloc::vec::Vec<ProcessInternal>,
 }
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct GetDebugRequest {
     #[prost(enumeration = "ConfigFlag", tag = "1")]
     pub flag: i32,
@@ -2496,7 +2499,7 @@ pub struct GetDebugRequest {
 }
 /// Nested message and enum types in `GetDebugRequest`.
 pub mod get_debug_request {
-    #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
+    #[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Oneof)]
     pub enum Arg {
         #[prost(message, tag = "2")]
         Dump(super::DumpProcessCacheReqArgs),
@@ -2519,7 +2522,7 @@ pub mod get_debug_response {
         Processes(super::DumpProcessCacheResArgs),
     }
 }
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct SetDebugRequest {
     #[prost(enumeration = "ConfigFlag", tag = "1")]
     pub flag: i32,
@@ -2528,13 +2531,13 @@ pub struct SetDebugRequest {
 }
 /// Nested message and enum types in `SetDebugRequest`.
 pub mod set_debug_request {
-    #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
+    #[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Oneof)]
     pub enum Arg {
         #[prost(enumeration = "super::LogLevel", tag = "2")]
         Level(i32),
     }
 }
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct SetDebugResponse {
     #[prost(enumeration = "ConfigFlag", tag = "1")]
     pub flag: i32,
@@ -2543,7 +2546,7 @@ pub struct SetDebugResponse {
 }
 /// Nested message and enum types in `SetDebugResponse`.
 pub mod set_debug_response {
-    #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
+    #[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Oneof)]
     pub enum Arg {
         #[prost(enumeration = "super::LogLevel", tag = "2")]
         Level(i32),
@@ -2800,7 +2803,7 @@ pub mod fine_guidance_sensors_client {
                         format!("Service was not ready: {}", e.into()),
                     )
                 })?;
-            let codec = tonic::codec::ProstCodec::default();
+            let codec = tonic_prost::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/tetragon.FineGuidanceSensors/GetEvents",
             );
@@ -2824,7 +2827,7 @@ pub mod fine_guidance_sensors_client {
                         format!("Service was not ready: {}", e.into()),
                     )
                 })?;
-            let codec = tonic::codec::ProstCodec::default();
+            let codec = tonic_prost::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/tetragon.FineGuidanceSensors/GetHealth",
             );
@@ -2848,7 +2851,7 @@ pub mod fine_guidance_sensors_client {
                         format!("Service was not ready: {}", e.into()),
                     )
                 })?;
-            let codec = tonic::codec::ProstCodec::default();
+            let codec = tonic_prost::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/tetragon.FineGuidanceSensors/AddTracingPolicy",
             );
@@ -2874,7 +2877,7 @@ pub mod fine_guidance_sensors_client {
                         format!("Service was not ready: {}", e.into()),
                     )
                 })?;
-            let codec = tonic::codec::ProstCodec::default();
+            let codec = tonic_prost::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/tetragon.FineGuidanceSensors/DeleteTracingPolicy",
             );
@@ -2903,7 +2906,7 @@ pub mod fine_guidance_sensors_client {
                         format!("Service was not ready: {}", e.into()),
                     )
                 })?;
-            let codec = tonic::codec::ProstCodec::default();
+            let codec = tonic_prost::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/tetragon.FineGuidanceSensors/ListTracingPolicies",
             );
@@ -2919,10 +2922,11 @@ pub mod fine_guidance_sensors_client {
         }
         /// ConfigureTracingPolicy can be used to configure a loaded tracing policy.
         /// It can be used to:
-        ///   - enable/disable it
-        ///   - change its mode (enforcement vs monitoring)
-        /// If multiple changes are requested and an error is encountered, the resulting state might have
-        /// partial updates applied. In other words, the configuring a tracing policy is not atomic.
+        ///
+        /// * enable/disable it
+        /// * change its mode (enforcement vs monitoring)
+        ///  If multiple changes are requested and an error is encountered, the resulting state might have
+        ///  partial updates applied. In other words, the configuring a tracing policy is not atomic.
         pub async fn configure_tracing_policy(
             &mut self,
             request: impl tonic::IntoRequest<super::ConfigureTracingPolicyRequest>,
@@ -2938,7 +2942,7 @@ pub mod fine_guidance_sensors_client {
                         format!("Service was not ready: {}", e.into()),
                     )
                 })?;
-            let codec = tonic::codec::ProstCodec::default();
+            let codec = tonic_prost::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/tetragon.FineGuidanceSensors/ConfigureTracingPolicy",
             );
@@ -2968,7 +2972,7 @@ pub mod fine_guidance_sensors_client {
                         format!("Service was not ready: {}", e.into()),
                     )
                 })?;
-            let codec = tonic::codec::ProstCodec::default();
+            let codec = tonic_prost::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/tetragon.FineGuidanceSensors/EnableTracingPolicy",
             );
@@ -2998,7 +3002,7 @@ pub mod fine_guidance_sensors_client {
                         format!("Service was not ready: {}", e.into()),
                     )
                 })?;
-            let codec = tonic::codec::ProstCodec::default();
+            let codec = tonic_prost::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/tetragon.FineGuidanceSensors/DisableTracingPolicy",
             );
@@ -3028,7 +3032,7 @@ pub mod fine_guidance_sensors_client {
                         format!("Service was not ready: {}", e.into()),
                     )
                 })?;
-            let codec = tonic::codec::ProstCodec::default();
+            let codec = tonic_prost::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/tetragon.FineGuidanceSensors/ListSensors",
             );
@@ -3053,7 +3057,7 @@ pub mod fine_guidance_sensors_client {
                         format!("Service was not ready: {}", e.into()),
                     )
                 })?;
-            let codec = tonic::codec::ProstCodec::default();
+            let codec = tonic_prost::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/tetragon.FineGuidanceSensors/EnableSensor",
             );
@@ -3078,7 +3082,7 @@ pub mod fine_guidance_sensors_client {
                         format!("Service was not ready: {}", e.into()),
                     )
                 })?;
-            let codec = tonic::codec::ProstCodec::default();
+            let codec = tonic_prost::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/tetragon.FineGuidanceSensors/DisableSensor",
             );
@@ -3105,7 +3109,7 @@ pub mod fine_guidance_sensors_client {
                         format!("Service was not ready: {}", e.into()),
                     )
                 })?;
-            let codec = tonic::codec::ProstCodec::default();
+            let codec = tonic_prost::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/tetragon.FineGuidanceSensors/RemoveSensor",
             );
@@ -3129,7 +3133,7 @@ pub mod fine_guidance_sensors_client {
                         format!("Service was not ready: {}", e.into()),
                     )
                 })?;
-            let codec = tonic::codec::ProstCodec::default();
+            let codec = tonic_prost::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/tetragon.FineGuidanceSensors/GetStackTraceTree",
             );
@@ -3155,7 +3159,7 @@ pub mod fine_guidance_sensors_client {
                         format!("Service was not ready: {}", e.into()),
                     )
                 })?;
-            let codec = tonic::codec::ProstCodec::default();
+            let codec = tonic_prost::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/tetragon.FineGuidanceSensors/GetVersion",
             );
@@ -3179,7 +3183,7 @@ pub mod fine_guidance_sensors_client {
                         format!("Service was not ready: {}", e.into()),
                     )
                 })?;
-            let codec = tonic::codec::ProstCodec::default();
+            let codec = tonic_prost::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/tetragon.FineGuidanceSensors/RuntimeHook",
             );
@@ -3203,7 +3207,7 @@ pub mod fine_guidance_sensors_client {
                         format!("Service was not ready: {}", e.into()),
                     )
                 })?;
-            let codec = tonic::codec::ProstCodec::default();
+            let codec = tonic_prost::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/tetragon.FineGuidanceSensors/GetDebug",
             );
@@ -3227,7 +3231,7 @@ pub mod fine_guidance_sensors_client {
                         format!("Service was not ready: {}", e.into()),
                     )
                 })?;
-            let codec = tonic::codec::ProstCodec::default();
+            let codec = tonic_prost::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/tetragon.FineGuidanceSensors/SetDebug",
             );
